@@ -1,0 +1,104 @@
+.auth-container {
+  background-color: #1e1b2e;
+  padding: 2rem;
+  border-radius: 10px;
+  max-width: 400px;
+  margin: 5rem auto;
+  box-shadow: 0 0 15px rgba(162, 89, 255, 0.4);
+  transition: all 0.3s ease;
+}
+
+.auth-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #a259ff;
+}
+
+.auth-form label {
+  display: block;
+  margin-top: 1rem;
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 0.7rem;
+  margin-top: 0.3rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #2a263d;
+  color: #f0f0f0;
+  font-size: 1rem;
+  transition: border 0.3s;
+}
+
+.auth-form input:focus {
+  outline: none;
+  border: 2px solid #a259ff;
+}
+
+.btn.btn-primary {
+  margin-top: 1.5rem;
+  padding: 0.8rem;
+  width: 100%;
+  background-color: #a259ff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn.btn-primary:hover {
+  background-color: #6e32c9;
+}
+
+.redirect-text {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.link-btn {
+  color: #a259ff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.link-btn:hover {
+  color: #d4adff;
+  text-decoration: underline;
+}
+
+.error-msg {
+  color: #ff4d4d;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.password-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-container input {
+  flex: 1;
+  padding-right: 2.5rem;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  color: #ccc;
+  font-size: 1.2rem;
+  user-select: none;
+  transition: color 0.3s ease;
+}
+
+.password-toggle-icon:hover {
+  color: #a259ff;
+}

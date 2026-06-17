@@ -1,0 +1,12 @@
+/* App.css */
+
+.app {
+  background-color: #0f172a; /* Tailwind's slate-900 */
+  color: white;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.content {
+  padding: 1rem;
+}
