@@ -7,12 +7,14 @@ const languageOptions = [
   { label: "C++", value: "cpp" },
   { label: "Java", value: "java" },
   { label: "C", value: "c" },
+  { label: "Python", value: "python" },
 ];
 
 const defaultCodeByLanguage = {
   cpp: `#include <iostream>\nint main() {\n  std::cout << "Hello World!";\n  return 0;\n}`,
   java: `public class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello World!");\n  }\n}`,
   c: `#include <stdio.h>\nint main() {\n  printf("Hello World!");\n  return 0;\n}`,
+  python: `print("Hello World!")`,
 };
 
 const getDefaultCode = (problem, language) => {

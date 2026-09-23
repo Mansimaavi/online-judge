@@ -41,7 +41,8 @@ export const generateFile = (language, content) => {
     // Map language to proper file extension
     const extensionMap = {
         'cpp': 'cpp',
-        'c': 'c'
+        'c': 'c',
+        'python': 'py'
     };
 
     const extension = extensionMap[language] || language;

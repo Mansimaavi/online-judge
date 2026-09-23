@@ -8,12 +8,14 @@
     "defaultCode": {
       "cpp": "class Solution {\npublic:\n    vector<int> twoSum(vector<int>& nums, int target) {\n        // Your code here\n    }\n};",
       "java": "class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        // Your code here\n    }\n}",
-      "c": "int* twoSum(int* nums, int numsSize, int target, int* returnSize) {\n    // Your code here\n}"
+      "c": "int* twoSum(int* nums, int numsSize, int target, int* returnSize) {\n    // Your code here\n}",
+      "python": "class Solution:\n    def twoSum(self, nums, target):\n        # Your code here\n        pass"
     },
     "boilerplate": {
       "cpp": "#include <iostream>\n#include <vector>\n#include <unordered_map>\n#include <algorithm>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    \n    int n, target;\n    cin >> n >> target;\n    \n    vector<int> nums(n);\n    for (int i = 0; i < n; i++) {\n        cin >> nums[i];\n    }\n    \n    Solution sol;\n    vector<int> result = sol.twoSum(nums, target);\n    \n    for(int i = 0; i < result.size(); i++) {\n        cout << result[i];\n        if(i < result.size() - 1) cout << \" \";\n    }\n    cout << endl;\n    \n    return 0;\n}",
       "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int target = sc.nextInt();\n        int[] nums = new int[n];\n        for (int i = 0; i < n; i++) nums[i] = sc.nextInt();\n        Solution sol = new Solution();\n        int[] result = sol.twoSum(nums, target);\n        for (int i : result) System.out.print(i + \" \");\n        System.out.println();\n    }\n}",
-      "c": "#include <stdio.h>\n#include <stdlib.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n, target;\n    scanf(\"%d %d\", &n, &target);\n    int* nums = (int*)malloc(n * sizeof(int));\n    for (int i = 0; i < n; i++) scanf(\"%d\", &nums[i]);\n    int returnSize;\n    int* result = twoSum(nums, n, target, &returnSize);\n    for (int i = 0; i < returnSize; i++) printf(\"%d \", result[i]);\n    printf(\"\\n\");\n    free(nums);\n    free(result);\n    return 0;\n}"
+      "c": "#include <stdio.h>\n#include <stdlib.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n, target;\n    scanf(\"%d %d\", &n, &target);\n    int* nums = (int*)malloc(n * sizeof(int));\n    for (int i = 0; i < n; i++) scanf(\"%d\", &nums[i]);\n    int returnSize;\n    int* result = twoSum(nums, n, target, &returnSize);\n    for (int i = 0; i < returnSize; i++) printf(\"%d \", result[i]);\n    printf(\"\\n\");\n    free(nums);\n    free(result);\n    return 0;\n}",
+      "python": "{{USER_CODE}}\n\ndef main():\n    import sys\n    data = sys.stdin.read().split()\n    n = int(data[0]); target = int(data[1])\n    nums = list(map(int, data[2:2+n]))\n    sol = Solution()\n    result = sol.twoSum(nums, target)\n    print(' '.join(map(str, result)))\n\nif __name__ == '__main__':\n    main()"
     },
     "constraints": [
       "2 <= nums.length <= 10^4",
@@ -71,12 +73,14 @@
     "defaultCode": {
       "cpp": "class Solution {\npublic:\n    vector<int> shortestPath(vector<vector<int>>& edges, int N, int M) {\n        // Your code here\n    }\n};",
       "java": "class Solution {\n    public List<Integer> shortestPath(int[][] edges, int N, int M) {\n        // Your code here\n    }\n}",
-      "c": "int* shortestPath(int edges[][2], int N, int M, int* returnSize) {\n    // Your code here\n}"
+      "c": "int* shortestPath(int edges[][2], int N, int M, int* returnSize) {\n    // Your code here\n}",
+      "python": "class Solution:\n    def shortestPath(self, edges, N, M):\n        # Your code here\n        pass"
     },
     "boilerplate": {
       "cpp": "#include <iostream>\n#include <vector>\n#include <queue>\n#include <algorithm>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    \n    int N, M;\n    cin >> N >> M;\n    \n    vector<vector<int>> edges(M, vector<int>(2));\n    for(int i = 0; i < M; i++) {\n        cin >> edges[i][0] >> edges[i][1];\n    }\n    \n    Solution sol;\n    vector<int> dist = sol.shortestPath(edges, N, M);\n    \n    for(int i = 0; i < dist.size(); i++) {\n        cout << dist[i];\n        if(i < dist.size() - 1) cout << \" \";\n    }\n    cout << endl;\n    \n    return 0;\n}",
       "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int N = sc.nextInt();\n        int M = sc.nextInt();\n        int[][] edges = new int[M][2];\n        for(int i = 0; i < M; i++) {\n            edges[i][0] = sc.nextInt();\n            edges[i][1] = sc.nextInt();\n        }\n        Solution sol = new Solution();\n        List<Integer> dist = sol.shortestPath(edges, N, M);\n        for(int d : dist) System.out.print(d + \" \");\n        System.out.println();\n    }\n}",
-      "c": "#include <stdio.h>\n#include <stdlib.h>\n\n{{USER_CODE}}\n\nint main() {\n    int N, M;\n    scanf(\"%d %d\", &N, &M);\n    \n    int (*edges)[2] = malloc(M * sizeof(*edges));\n    for(int i = 0; i < M; i++) {\n        scanf(\"%d %d\", &edges[i][0], &edges[i][1]);\n    }\n    \n    int returnSize;\n    int* dist = shortestPath(edges, N, M, &returnSize);\n    for (int i = 0; i < returnSize; i++) {\n        printf(\"%d\", dist[i]);\n        if (i < returnSize - 1) printf(\" \");\n    }\n    printf(\"\\n\");\n    \n    free(edges);\n    free(dist);\n    return 0;\n}"
+      "c": "#include <stdio.h>\n#include <stdlib.h>\n\n{{USER_CODE}}\n\nint main() {\n    int N, M;\n    scanf(\"%d %d\", &N, &M);\n    \n    int (*edges)[2] = malloc(M * sizeof(*edges));\n    for(int i = 0; i < M; i++) {\n        scanf(\"%d %d\", &edges[i][0], &edges[i][1]);\n    }\n    \n    int returnSize;\n    int* dist = shortestPath(edges, N, M, &returnSize);\n    for (int i = 0; i < returnSize; i++) {\n        printf(\"%d\", dist[i]);\n        if (i < returnSize - 1) printf(\" \");\n    }\n    printf(\"\\n\");\n    \n    free(edges);\n    free(dist);\n    return 0;\n}",
+      "python": "from collections import deque\n\n{{USER_CODE}}\n\ndef main():\n    import sys\n    data = sys.stdin.read().split()\n    idx = 0\n    N = int(data[idx]); idx+=1\n    M = int(data[idx]); idx+=1\n    edges = []\n    for _ in range(M):\n        a = int(data[idx]); idx+=1\n        b = int(data[idx]); idx+=1\n        edges.append([a,b])\n    sol = Solution()\n    dist = sol.shortestPath(edges, N, M)\n    print(' '.join(map(str, dist)))\n\nif __name__ == '__main__':\n    main()"
     },
     "constraints": [
       "1 <= N <= 10^5",
@@ -138,12 +142,14 @@
     "defaultCode": {
       "cpp": "class Solution {\npublic:\n    int reverse(int x) {\n        // Your code here\n    }\n};",
       "java": "class Solution {\n    public int reverse(int x) {\n        // Your code here\n    }\n}",
-      "c": "int reverse(int x) {\n    // Your code here\n}"
+      "c": "int reverse(int x) {\n    // Your code here\n}",
+      "python": "class Solution:\n    def reverse(self, x):\n        # Your code here\n        pass"
     },
     "boilerplate": {
       "cpp": "#include <iostream>\n#include <cstdint>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    int x;\n    cin >> x;\n    Solution sol;\n    cout << sol.reverse(x) << endl;\n    return 0;\n}",
       "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int x = sc.nextInt();\n        Solution sol = new Solution();\n        System.out.println(sol.reverse(x));\n    }\n}",
-      "c": "#include <stdio.h>\n#include <limits.h>\n\n{{USER_CODE}}\n\nint main() {\n    int x;\n    scanf(\"%d\", &x);\n    printf(\"%d\\n\", reverse(x));\n    return 0;\n}"
+      "c": "#include <stdio.h>\n#include <limits.h>\n\n{{USER_CODE}}\n\nint main() {\n    int x;\n    scanf(\"%d\", &x);\n    printf(\"%d\\n\", reverse(x));\n    return 0;\n}",
+      "python": "{{USER_CODE}}\n\ndef main():\n    import sys\n    x = int(sys.stdin.readline().strip())\n    sol = Solution()\n    print(sol.reverse(x))\n\nif __name__ == '__main__':\n    main()"
     },
     "constraints": [
       "-2^31 <= x <= 2^31 - 1"
@@ -193,12 +199,14 @@
     "defaultCode": {
       "cpp": "class Solution {\npublic:\n    bool isValid(string s) {\n        // Your code here\n    }\n};",
       "java": "class Solution {\n    public boolean isValid(String s) {\n        // Your code here\n    }\n}",
-      "c": "int isValid(char* s) {\n    // Your code here\n}"
+      "c": "int isValid(char* s) {\n    // Your code here\n}",
+      "python": "class Solution:\n    def isValid(self, s):\n        # Your code here\n        pass"
     },
     "boilerplate": {
       "cpp": "#include <iostream>\n#include <string>\n#include <stack>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    string s;\n    getline(cin, s);\n    Solution sol;\n    cout << (sol.isValid(s) ? \"true\" : \"false\") << endl;\n    return 0;\n}",
       "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        String s = sc.nextLine();\n        Solution sol = new Solution();\n        System.out.println(sol.isValid(s));\n    }\n}",
-      "c": "#include <stdio.h>\n#include <string.h>\n\n{{USER_CODE}}\n\nint main() {\n    char s[10005];\n    if (fgets(s, sizeof(s), stdin)) {\n        s[strcspn(s, \"\\n\")] = 0;\n    }\n    printf(isValid(s) ? \"true\\n\" : \"false\\n\");\n    return 0;\n}"
+      "c": "#include <stdio.h>\n#include <string.h>\n\n{{USER_CODE}}\n\nint main() {\n    char s[10005];\n    if (fgets(s, sizeof(s), stdin)) {\n        s[strcspn(s, \"\\n\")] = 0;\n    }\n    printf(isValid(s) ? \"true\\n\" : \"false\\n\");\n    return 0;\n}",
+      "python": "{{USER_CODE}}\n\ndef main():\n    import sys\n    s = sys.stdin.readline().rstrip('\\n')\n    sol = Solution()\n    print('true' if sol.isValid(s) else 'false')\n\nif __name__ == '__main__':\n    main()"
     },
     "constraints": [
       "1 <= s.length <= 10^4",
@@ -251,12 +259,14 @@
     "defaultCode": {
       "cpp": "class Solution {\npublic:\n    int maxSubArray(vector<int>& nums) {\n        // Your code here\n    }\n};",
       "java": "class Solution {\n    public int maxSubArray(int[] nums) {\n        // Your code here\n    }\n}",
-      "c": "int maxSubArray(int* nums, int n) {\n    // Your code here\n}"
+      "c": "int maxSubArray(int* nums, int n) {\n    // Your code here\n}",
+      "python": "class Solution:\n    def maxSubArray(self, nums):\n        # Your code here\n        pass"
     },
     "boilerplate": {
       "cpp": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    int n; cin >> n;\n    vector<int> nums(n);\n    for (int i = 0; i < n; i++) cin >> nums[i];\n    Solution sol;\n    cout << sol.maxSubArray(nums) << endl;\n    return 0;\n}",
       "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] nums = new int[n];\n        for (int i = 0; i < n; i++) nums[i] = sc.nextInt();\n        Solution sol = new Solution();\n        System.out.println(sol.maxSubArray(nums));\n    }\n}",
-      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    int nums[100000];\n    for (int i = 0; i < n; i++) scanf(\"%d\", &nums[i]);\n    printf(\"%d\\n\", maxSubArray(nums, n));\n    return 0;\n}"
+      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    int nums[100000];\n    for (int i = 0; i < n; i++) scanf(\"%d\", &nums[i]);\n    printf(\"%d\\n\", maxSubArray(nums, n));\n    return 0;\n}",
+      "python": "{{USER_CODE}}\n\ndef main():\n    import sys\n    data = sys.stdin.read().split()\n    n = int(data[0])\n    nums = list(map(int, data[1:1+n]))\n    sol = Solution()\n    print(sol.maxSubArray(nums))\n\nif __name__ == '__main__':\n    main()"
     },
     "constraints": [
       "1 <= nums.length <= 10^5",
@@ -309,12 +319,14 @@
     "defaultCode": {
       "cpp": "class Solution {\npublic:\n    int search(vector<int>& nums, int target) {\n        // Your code here\n    }\n};",
       "java": "class Solution {\n    public int search(int[] nums, int target) {\n        // Your code here\n    }\n}",
-      "c": "int search(int* nums, int n, int target) {\n    // Your code here\n}"
+      "c": "int search(int* nums, int n, int target) {\n    // Your code here\n}",
+      "python": "class Solution:\n    def search(self, nums, target):\n        # Your code here\n        pass"
     },
     "boilerplate": {
       "cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    int n; cin >> n;\n    vector<int> nums(n);\n    for (int i = 0; i < n; i++) cin >> nums[i];\n    int target; cin >> target;\n    Solution sol;\n    cout << sol.search(nums, target) << endl;\n    return 0;\n}",
       "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] nums = new int[n];\n        for (int i = 0; i < n; i++) nums[i] = sc.nextInt();\n        int target = sc.nextInt();\n        Solution sol = new Solution();\n        System.out.println(sol.search(nums, target));\n    }\n}",
-      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    int nums[100000];\n    for (int i = 0; i < n; i++) scanf(\"%d\", &nums[i]);\n    int target; scanf(\"%d\", &target);\n    printf(\"%d\\n\", search(nums, n, target));\n    return 0;\n}"
+      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    int nums[100000];\n    for (int i = 0; i < n; i++) scanf(\"%d\", &nums[i]);\n    int target; scanf(\"%d\", &target);\n    printf(\"%d\\n\", search(nums, n, target));\n    return 0;\n}",
+      "python": "{{USER_CODE}}\n\ndef main():\n    import sys\n    data = sys.stdin.read().split()\n    idx = 0\n    n = int(data[idx]); idx+=1\n    nums = list(map(int, data[idx:idx+n])); idx += n\n    target = int(data[idx])\n    sol = Solution()\n    print(sol.search(nums, target))\n\nif __name__ == '__main__':\n    main()"
     },
     "constraints": [
       "1 <= nums.length <= 10^4",
@@ -366,12 +378,14 @@
     "defaultCode": {
       "cpp": "class Solution {\npublic:\n    int fib(int n) {\n        // Your code here\n    }\n};",
       "java": "class Solution {\n    public int fib(int n) {\n        // Your code here\n    }\n}",
-      "c": "int fib(int n) {\n    // Your code here\n}"
+      "c": "int fib(int n) {\n    // Your code here\n}",
+      "python": "class Solution:\n    def fib(self, n):\n        # Your code here\n        pass"
     },
     "boilerplate": {
       "cpp": "#include <iostream>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    int n; cin >> n;\n    Solution sol;\n    cout << sol.fib(n) << endl;\n    return 0;\n}",
       "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        Solution sol = new Solution();\n        System.out.println(sol.fib(n));\n    }\n}",
-      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    printf(\"%d\\n\", fib(n));\n    return 0;\n}"
+      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    printf(\"%d\\n\", fib(n));\n    return 0;\n}",
+      "python": "{{USER_CODE}}\n\ndef main():\n    import sys\n    n = int(sys.stdin.readline().strip())\n    sol = Solution()\n    print(sol.fib(n))\n\nif __name__ == '__main__':\n    main()"
     },
     "constraints": [
       "0 <= n <= 30"
@@ -422,12 +436,14 @@
     "defaultCode": {
       "cpp": "class Solution {\npublic:\n    void moveZeroes(vector<int>& nums) {\n        // Your code here\n    }\n};",
       "java": "class Solution {\n    public void moveZeroes(int[] nums) {\n        // Your code here\n    }\n}",
-      "c": "void moveZeroes(int* nums, int n) {\n    // Your code here\n}"
+      "c": "void moveZeroes(int* nums, int n) {\n    // Your code here\n}",
+      "python": "class Solution:\n    def moveZeroes(self, nums):\n        # Your code here\n        pass"
     },
     "boilerplate": {
       "cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    int n; cin >> n;\n    vector<int> nums(n);\n    for (int i = 0; i < n; i++) cin >> nums[i];\n    Solution sol;\n    sol.moveZeroes(nums);\n    for (int i = 0; i < n; i++) { cout << nums[i]; if (i < n-1) cout << \" \"; }\n    cout << endl;\n    return 0;\n}",
       "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] nums = new int[n];\n        for (int i = 0; i < n; i++) nums[i] = sc.nextInt();\n        Solution sol = new Solution();\n        sol.moveZeroes(nums);\n        StringBuilder sb = new StringBuilder();\n        for (int i = 0; i < n; i++) { sb.append(nums[i]); if (i < n-1) sb.append(\" \"); }\n        System.out.println(sb.toString());\n    }\n}",
-      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    int nums[100000];\n    for (int i = 0; i < n; i++) scanf(\"%d\", &nums[i]);\n    moveZeroes(nums, n);\n    for (int i = 0; i < n; i++) { printf(\"%d\", nums[i]); if (i < n-1) printf(\" \"); }\n    printf(\"\\n\");\n    return 0;\n}"
+      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    int nums[100000];\n    for (int i = 0; i < n; i++) scanf(\"%d\", &nums[i]);\n    moveZeroes(nums, n);\n    for (int i = 0; i < n; i++) { printf(\"%d\", nums[i]); if (i < n-1) printf(\" \"); }\n    printf(\"\\n\");\n    return 0;\n}",
+      "python": "{{USER_CODE}}\n\ndef main():\n    import sys\n    data = sys.stdin.read().split()\n    n = int(data[0])\n    nums = list(map(int, data[1:1+n]))\n    sol = Solution()\n    sol.moveZeroes(nums)\n    print(' '.join(map(str, nums)))\n\nif __name__ == '__main__':\n    main()"
     },
     "constraints": [
       "1 <= nums.length <= 10^4",
@@ -478,12 +494,14 @@
     "defaultCode": {
       "cpp": "class Solution {\npublic:\n    bool isPalindrome(string s) {\n        // Your code here\n    }\n};",
       "java": "class Solution {\n    public boolean isPalindrome(String s) {\n        // Your code here\n    }\n}",
-      "c": "int isPalindrome(char* s) {\n    // Your code here\n}"
+      "c": "int isPalindrome(char* s) {\n    // Your code here\n}",
+      "python": "class Solution:\n    def isPalindrome(self, s):\n        # Your code here\n        pass"
     },
     "boilerplate": {
       "cpp": "#include <iostream>\n#include <string>\n#include <cctype>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    string s;\n    getline(cin, s);\n    Solution sol;\n    cout << (sol.isPalindrome(s) ? \"true\" : \"false\") << endl;\n    return 0;\n}",
       "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        String s = sc.nextLine();\n        Solution sol = new Solution();\n        System.out.println(sol.isPalindrome(s));\n    }\n}",
-      "c": "#include <stdio.h>\n#include <string.h>\n#include <ctype.h>\n\n{{USER_CODE}}\n\nint main() {\n    char s[10005];\n    if (fgets(s, sizeof(s), stdin)) s[strcspn(s, \"\\n\")] = 0;\n    printf(isPalindrome(s) ? \"true\\n\" : \"false\\n\");\n    return 0;\n}"
+      "c": "#include <stdio.h>\n#include <string.h>\n#include <ctype.h>\n\n{{USER_CODE}}\n\nint main() {\n    char s[10005];\n    if (fgets(s, sizeof(s), stdin)) s[strcspn(s, \"\\n\")] = 0;\n    printf(isPalindrome(s) ? \"true\\n\" : \"false\\n\");\n    return 0;\n}",
+      "python": "{{USER_CODE}}\n\ndef main():\n    import sys\n    s = sys.stdin.readline().rstrip('\\n')\n    sol = Solution()\n    print('true' if sol.isPalindrome(s) else 'false')\n\nif __name__ == '__main__':\n    main()"
     },
     "constraints": [
       "1 <= s.length <= 2 * 10^5",
@@ -535,12 +553,14 @@
     "defaultCode": {
       "cpp": "class Solution {\npublic:\n    int countComponents(int n, vector<vector<int>>& edges) {\n        // Your code here\n    }\n};",
       "java": "class Solution {\n    public int countComponents(int n, int[][] edges) {\n        // Your code here\n    }\n}",
-      "c": "int countComponents(int n, int edges[][2], int m) {\n    // Your code here\n}"
+      "c": "int countComponents(int n, int edges[][2], int m) {\n    // Your code here\n}",
+      "python": "class Solution:\n    def countComponents(self, n, edges):\n        # Your code here\n        pass"
     },
     "boilerplate": {
       "cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    int n, m; cin >> n >> m;\n    vector<vector<int>> edges(m, vector<int>(2));\n    for (int i = 0; i < m; i++) cin >> edges[i][0] >> edges[i][1];\n    Solution sol;\n    cout << sol.countComponents(n, edges) << endl;\n    return 0;\n}",
       "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt(), m = sc.nextInt();\n        int[][] edges = new int[m][2];\n        for (int i = 0; i < m; i++) { edges[i][0] = sc.nextInt(); edges[i][1] = sc.nextInt(); }\n        Solution sol = new Solution();\n        System.out.println(sol.countComponents(n, edges));\n    }\n}",
-      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n, m; scanf(\"%d %d\", &n, &m);\n    int edges[10000][2];\n    for (int i = 0; i < m; i++) scanf(\"%d %d\", &edges[i][0], &edges[i][1]);\n    printf(\"%d\\n\", countComponents(n, edges, m));\n    return 0;\n}"
+      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n, m; scanf(\"%d %d\", &n, &m);\n    int edges[10000][2];\n    for (int i = 0; i < m; i++) scanf(\"%d %d\", &edges[i][0], &edges[i][1]);\n    printf(\"%d\\n\", countComponents(n, edges, m));\n    return 0;\n}",
+      "python": "{{USER_CODE}}\n\ndef main():\n    import sys\n    data = sys.stdin.read().split()\n    idx = 0\n    n = int(data[idx]); idx+=1\n    m = int(data[idx]); idx+=1\n    edges = []\n    for _ in range(m):\n        a = int(data[idx]); idx+=1\n        b = int(data[idx]); idx+=1\n        edges.append([a,b])\n    sol = Solution()\n    print(sol.countComponents(n, edges))\n\nif __name__ == '__main__':\n    main()"
     },
     "constraints": [
       "1 <= n <= 2000",
@@ -594,12 +614,14 @@
     "defaultCode": {
       "cpp": "class Solution {\npublic:\n    int climbStairs(int n) {\n        // Your code here\n    }\n};",
       "java": "class Solution {\n    public int climbStairs(int n) {\n        // Your code here\n    }\n}",
-      "c": "int climbStairs(int n) {\n    // Your code here\n}"
+      "c": "int climbStairs(int n) {\n    // Your code here\n}",
+      "python": "class Solution:\n    def climbStairs(self, n):\n        # Your code here\n        pass"
     },
     "boilerplate": {
       "cpp": "#include <iostream>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    int n; cin >> n;\n    Solution sol;\n    cout << sol.climbStairs(n) << endl;\n    return 0;\n}",
       "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        Solution sol = new Solution();\n        System.out.println(sol.climbStairs(n));\n    }\n}",
-      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    printf(\"%d\\n\", climbStairs(n));\n    return 0;\n}"
+      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    printf(\"%d\\n\", climbStairs(n));\n    return 0;\n}",
+      "python": "{{USER_CODE}}\n\ndef main():\n    import sys\n    n = int(sys.stdin.readline().strip())\n    sol = Solution()\n    print(sol.climbStairs(n))\n\nif __name__ == '__main__':\n    main()"
     },
     "constraints": [
       "1 <= n <= 45"
@@ -651,12 +673,14 @@
     "defaultCode": {
       "cpp": "class Solution {\npublic:\n    int singleNumber(vector<int>& nums) {\n        // Your code here\n    }\n};",
       "java": "class Solution {\n    public int singleNumber(int[] nums) {\n        // Your code here\n    }\n}",
-      "c": "int singleNumber(int* nums, int n) {\n    // Your code here\n}"
+      "c": "int singleNumber(int* nums, int n) {\n    // Your code here\n}",
+      "python": "class Solution:\n    def singleNumber(self, nums):\n        # Your code here\n        pass"
     },
     "boilerplate": {
       "cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    int n; cin >> n;\n    vector<int> nums(n);\n    for (int i = 0; i < n; i++) cin >> nums[i];\n    Solution sol;\n    cout << sol.singleNumber(nums) << endl;\n    return 0;\n}",
       "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] nums = new int[n];\n        for (int i = 0; i < n; i++) nums[i] = sc.nextInt();\n        Solution sol = new Solution();\n        System.out.println(sol.singleNumber(nums));\n    }\n}",
-      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    int nums[100000];\n    for (int i = 0; i < n; i++) scanf(\"%d\", &nums[i]);\n    printf(\"%d\\n\", singleNumber(nums, n));\n    return 0;\n}"
+      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    int nums[100000];\n    for (int i = 0; i < n; i++) scanf(\"%d\", &nums[i]);\n    printf(\"%d\\n\", singleNumber(nums, n));\n    return 0;\n}",
+      "python": "{{USER_CODE}}\n\ndef main():\n    import sys\n    data = sys.stdin.read().split()\n    n = int(data[0])\n    nums = list(map(int, data[1:1+n]))\n    sol = Solution()\n    print(sol.singleNumber(nums))\n\nif __name__ == '__main__':\n    main()"
     },
     "constraints": [
       "1 <= nums.length <= 3*10^4"
@@ -706,12 +730,14 @@
     "defaultCode": {
       "cpp": "class Solution {\npublic:\n    int majorityElement(vector<int>& nums) {\n        // Your code here\n    }\n};",
       "java": "class Solution {\n    public int majorityElement(int[] nums) {\n        // Your code here\n    }\n}",
-      "c": "int majorityElement(int* nums, int n) {\n    // Your code here\n}"
+      "c": "int majorityElement(int* nums, int n) {\n    // Your code here\n}",
+      "python": "class Solution:\n    def majorityElement(self, nums):\n        # Your code here\n        pass"
     },
     "boilerplate": {
       "cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    int n; cin >> n;\n    vector<int> nums(n);\n    for (int i = 0; i < n; i++) cin >> nums[i];\n    Solution sol;\n    cout << sol.majorityElement(nums) << endl;\n    return 0;\n}",
       "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] nums = new int[n];\n        for (int i = 0; i < n; i++) nums[i] = sc.nextInt();\n        Solution sol = new Solution();\n        System.out.println(sol.majorityElement(nums));\n    }\n}",
-      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    int nums[100000];\n    for (int i = 0; i < n; i++) scanf(\"%d\", &nums[i]);\n    printf(\"%d\\n\", majorityElement(nums, n));\n    return 0;\n}"
+      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    int nums[100000];\n    for (int i = 0; i < n; i++) scanf(\"%d\", &nums[i]);\n    printf(\"%d\\n\", majorityElement(nums, n));\n    return 0;\n}",
+      "python": "{{USER_CODE}}\n\ndef main():\n    import sys\n    data = sys.stdin.read().split()\n    n = int(data[0])\n    nums = list(map(int, data[1:1+n]))\n    sol = Solution()\n    print(sol.majorityElement(nums))\n\nif __name__ == '__main__':\n    main()"
     },
     "constraints": [
       "n == nums.length",
@@ -763,12 +789,14 @@
     "defaultCode": {
       "cpp": "class Solution {\npublic:\n    bool containsDuplicate(vector<int>& nums) {\n        // Your code here\n    }\n};",
       "java": "class Solution {\n    public boolean containsDuplicate(int[] nums) {\n        // Your code here\n    }\n}",
-      "c": "int containsDuplicate(int* nums, int n) {\n    // Your code here\n}"
+      "c": "int containsDuplicate(int* nums, int n) {\n    // Your code here\n}",
+      "python": "class Solution:\n    def containsDuplicate(self, nums):\n        # Your code here\n        pass"
     },
     "boilerplate": {
       "cpp": "#include <iostream>\n#include <vector>\n#include <unordered_set>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    int n; cin >> n;\n    vector<int> nums(n);\n    for (int i = 0; i < n; i++) cin >> nums[i];\n    Solution sol;\n    cout << (sol.containsDuplicate(nums) ? \"true\" : \"false\") << endl;\n    return 0;\n}",
       "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] nums = new int[n];\n        for (int i = 0; i < n; i++) nums[i] = sc.nextInt();\n        Solution sol = new Solution();\n        System.out.println(sol.containsDuplicate(nums));\n    }\n}",
-      "c": "#include <stdio.h>\n#include <stdlib.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    int nums[100000];\n    for (int i = 0; i < n; i++) scanf(\"%d\", &nums[i]);\n    printf(containsDuplicate(nums, n) ? \"true\\n\" : \"false\\n\");\n    return 0;\n}"
+      "c": "#include <stdio.h>\n#include <stdlib.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    int nums[100000];\n    for (int i = 0; i < n; i++) scanf(\"%d\", &nums[i]);\n    printf(containsDuplicate(nums, n) ? \"true\\n\" : \"false\\n\");\n    return 0;\n}",
+      "python": "{{USER_CODE}}\n\ndef main():\n    import sys\n    data = sys.stdin.read().split()\n    n = int(data[0])\n    nums = list(map(int, data[1:1+n]))\n    sol = Solution()\n    print('true' if sol.containsDuplicate(nums) else 'false')\n\nif __name__ == '__main__':\n    main()"
     },
     "constraints": [
       "1 <= nums.length <= 10^5"
@@ -819,12 +847,14 @@
     "defaultCode": {
       "cpp": "class Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        // Your code here\n    }\n};",
       "java": "class Solution {\n    public int maxProfit(int[] prices) {\n        // Your code here\n    }\n}",
-      "c": "int maxProfit(int* prices, int n) {\n    // Your code here\n}"
+      "c": "int maxProfit(int* prices, int n) {\n    // Your code here\n}",
+      "python": "class Solution:\n    def maxProfit(self, prices):\n        # Your code here\n        pass"
     },
     "boilerplate": {
       "cpp": "#include <iostream>\n#include <vector>\n#include <climits>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    int n; cin >> n;\n    vector<int> prices(n);\n    for (int i = 0; i < n; i++) cin >> prices[i];\n    Solution sol;\n    cout << sol.maxProfit(prices) << endl;\n    return 0;\n}",
       "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] prices = new int[n];\n        for (int i = 0; i < n; i++) prices[i] = sc.nextInt();\n        Solution sol = new Solution();\n        System.out.println(sol.maxProfit(prices));\n    }\n}",
-      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    int prices[100000];\n    for (int i = 0; i < n; i++) scanf(\"%d\", &prices[i]);\n    printf(\"%d\\n\", maxProfit(prices, n));\n    return 0;\n}"
+      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    int prices[100000];\n    for (int i = 0; i < n; i++) scanf(\"%d\", &prices[i]);\n    printf(\"%d\\n\", maxProfit(prices, n));\n    return 0;\n}",
+      "python": "{{USER_CODE}}\n\ndef main():\n    import sys\n    data = sys.stdin.read().split()\n    n = int(data[0])\n    prices = list(map(int, data[1:1+n]))\n    sol = Solution()\n    print(sol.maxProfit(prices))\n\nif __name__ == '__main__':\n    main()"
     },
     "constraints": [
       "1 <= prices.length <= 10^5",
@@ -877,12 +907,14 @@
     "defaultCode": {
       "cpp": "class Solution {\npublic:\n    int missingNumber(vector<int>& nums) {\n        // Your code here\n    }\n};",
       "java": "class Solution {\n    public int missingNumber(int[] nums) {\n        // Your code here\n    }\n}",
-      "c": "int missingNumber(int* nums, int n) {\n    // Your code here\n}"
+      "c": "int missingNumber(int* nums, int n) {\n    // Your code here\n}",
+      "python": "class Solution:\n    def missingNumber(self, nums):\n        # Your code here\n        pass"
     },
     "boilerplate": {
       "cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    int n; cin >> n;\n    vector<int> nums(n);\n    for (int i = 0; i < n; i++) cin >> nums[i];\n    Solution sol;\n    cout << sol.missingNumber(nums) << endl;\n    return 0;\n}",
       "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] nums = new int[n];\n        for (int i = 0; i < n; i++) nums[i] = sc.nextInt();\n        Solution sol = new Solution();\n        System.out.println(sol.missingNumber(nums));\n    }\n}",
-      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    int nums[100000];\n    for (int i = 0; i < n; i++) scanf(\"%d\", &nums[i]);\n    printf(\"%d\\n\", missingNumber(nums, n));\n    return 0;\n}"
+      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    int nums[100000];\n    for (int i = 0; i < n; i++) scanf(\"%d\", &nums[i]);\n    printf(\"%d\\n\", missingNumber(nums, n));\n    return 0;\n}",
+      "python": "{{USER_CODE}}\n\ndef main():\n    import sys\n    data = sys.stdin.read().split()\n    n = int(data[0])\n    nums = list(map(int, data[1:1+n]))\n    sol = Solution()\n    print(sol.missingNumber(nums))\n\nif __name__ == '__main__':\n    main()"
     },
     "constraints": [
       "n == nums.length",
@@ -934,12 +966,14 @@
     "defaultCode": {
       "cpp": "class Solution {\npublic:\n    bool isPowerOfTwo(int n) {\n        // Your code here\n    }\n};",
       "java": "class Solution {\n    public boolean isPowerOfTwo(int n) {\n        // Your code here\n    }\n}",
-      "c": "int isPowerOfTwo(int n) {\n    // Your code here\n}"
+      "c": "int isPowerOfTwo(int n) {\n    // Your code here\n}",
+      "python": "class Solution:\n    def isPowerOfTwo(self, n):\n        # Your code here\n        pass"
     },
     "boilerplate": {
       "cpp": "#include <iostream>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    long long n; cin >> n;\n    Solution sol;\n    cout << (sol.isPowerOfTwo((int)n) ? \"true\" : \"false\") << endl;\n    return 0;\n}",
       "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        long n = sc.nextLong();\n        Solution sol = new Solution();\n        System.out.println(sol.isPowerOfTwo((int) n));\n    }\n}",
-      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    long long n; scanf(\"%lld\", &n);\n    printf(isPowerOfTwo((int)n) ? \"true\\n\" : \"false\\n\");\n    return 0;\n}"
+      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    long long n; scanf(\"%lld\", &n);\n    printf(isPowerOfTwo((int)n) ? \"true\\n\" : \"false\\n\");\n    return 0;\n}",
+      "python": "{{USER_CODE}}\n\ndef main():\n    import sys\n    n = int(sys.stdin.readline().strip())\n    sol = Solution()\n    print('true' if sol.isPowerOfTwo(n) else 'false')\n\nif __name__ == '__main__':\n    main()"
     },
     "constraints": [
       "-2^31 <= n <= 2^31 - 1"
@@ -990,12 +1024,14 @@
     "defaultCode": {
       "cpp": "class Solution {\npublic:\n    string longestCommonPrefix(vector<string>& strs) {\n        // Your code here\n    }\n};",
       "java": "class Solution {\n    public String longestCommonPrefix(String[] strs) {\n        // Your code here\n    }\n}",
-      "c": "void longestCommonPrefix(char strs[][1000], int n, char* result) {\n    // Your code here\n}"
+      "c": "void longestCommonPrefix(char strs[][1000], int n, char* result) {\n    // Your code here\n}",
+      "python": "class Solution:\n    def longestCommonPrefix(self, strs):\n        # Your code here\n        pass"
     },
     "boilerplate": {
       "cpp": "#include <iostream>\n#include <vector>\n#include <string>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    int n; cin >> n; cin.ignore();\n    vector<string> strs(n);\n    for (int i = 0; i < n; i++) getline(cin, strs[i]);\n    Solution sol;\n    string res = sol.longestCommonPrefix(strs);\n    cout << (res.empty() ? \"\\\"\\\"\" : res) << endl;\n    return 0;\n}",
       "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = Integer.parseInt(sc.nextLine().trim());\n        String[] strs = new String[n];\n        for (int i = 0; i < n; i++) strs[i] = sc.nextLine();\n        Solution sol = new Solution();\n        String res = sol.longestCommonPrefix(strs);\n        System.out.println(res.isEmpty() ? \"\\\"\\\"\" : res);\n    }\n}",
-      "c": "#include <stdio.h>\n#include <string.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\\n\", &n);\n    char strs[1000][1000];\n    for (int i = 0; i < n; i++) {\n        fgets(strs[i], 1000, stdin);\n        strs[i][strcspn(strs[i], \"\\n\")] = 0;\n    }\n    char result[1000];\n    longestCommonPrefix(strs, n, result);\n    printf(strlen(result) == 0 ? \"\\\"\\\"\\n\" : \"%s\\n\", result);\n    return 0;\n}"
+      "c": "#include <stdio.h>\n#include <string.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\\n\", &n);\n    char strs[1000][1000];\n    for (int i = 0; i < n; i++) {\n        fgets(strs[i], 1000, stdin);\n        strs[i][strcspn(strs[i], \"\\n\")] = 0;\n    }\n    char result[1000];\n    longestCommonPrefix(strs, n, result);\n    printf(strlen(result) == 0 ? \"\\\"\\\"\\n\" : \"%s\\n\", result);\n    return 0;\n}",
+      "python": "{{USER_CODE}}\n\ndef main():\n    import sys\n    lines = sys.stdin.read().split('\\n')\n    n = int(lines[0].strip())\n    strs = lines[1:1+n]\n    sol = Solution()\n    res = sol.longestCommonPrefix(strs)\n    print('\"\"' if res == '' else res)\n\nif __name__ == '__main__':\n    main()"
     },
     "constraints": [
       "1 <= strs.length <= 200",
@@ -1045,12 +1081,14 @@
     "defaultCode": {
       "cpp": "class Solution {\npublic:\n    vector<int> plusOne(vector<int>& digits) {\n        // Your code here\n    }\n};",
       "java": "class Solution {\n    public int[] plusOne(int[] digits) {\n        // Your code here\n    }\n}",
-      "c": "int* plusOne(int* digits, int n, int* returnSize) {\n    // Your code here\n}"
+      "c": "int* plusOne(int* digits, int n, int* returnSize) {\n    // Your code here\n}",
+      "python": "class Solution:\n    def plusOne(self, digits):\n        # Your code here\n        pass"
     },
     "boilerplate": {
       "cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    int n; cin >> n;\n    vector<int> digits(n);\n    for (int i = 0; i < n; i++) cin >> digits[i];\n    Solution sol;\n    vector<int> res = sol.plusOne(digits);\n    for (size_t i = 0; i < res.size(); i++) { cout << res[i]; if (i + 1 < res.size()) cout << \" \"; }\n    cout << endl;\n    return 0;\n}",
       "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] digits = new int[n];\n        for (int i = 0; i < n; i++) digits[i] = sc.nextInt();\n        Solution sol = new Solution();\n        int[] res = sol.plusOne(digits);\n        StringBuilder sb = new StringBuilder();\n        for (int i = 0; i < res.length; i++) { sb.append(res[i]); if (i + 1 < res.length) sb.append(\" \"); }\n        System.out.println(sb.toString());\n    }\n}",
-      "c": "#include <stdio.h>\n#include <stdlib.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    int digits[1000];\n    for (int i = 0; i < n; i++) scanf(\"%d\", &digits[i]);\n    int returnSize;\n    int* res = plusOne(digits, n, &returnSize);\n    for (int i = 0; i < returnSize; i++) { printf(\"%d\", res[i]); if (i + 1 < returnSize) printf(\" \"); }\n    printf(\"\\n\");\n    return 0;\n}"
+      "c": "#include <stdio.h>\n#include <stdlib.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    int digits[1000];\n    for (int i = 0; i < n; i++) scanf(\"%d\", &digits[i]);\n    int returnSize;\n    int* res = plusOne(digits, n, &returnSize);\n    for (int i = 0; i < returnSize; i++) { printf(\"%d\", res[i]); if (i + 1 < returnSize) printf(\" \"); }\n    printf(\"\\n\");\n    return 0;\n}",
+      "python": "{{USER_CODE}}\n\ndef main():\n    import sys\n    data = sys.stdin.read().split()\n    n = int(data[0])\n    digits = list(map(int, data[1:1+n]))\n    sol = Solution()\n    res = sol.plusOne(digits)\n    print(' '.join(map(str, res)))\n\nif __name__ == '__main__':\n    main()"
     },
     "constraints": [
       "1 <= digits.length <= 100",
@@ -1102,12 +1140,14 @@
     "defaultCode": {
       "cpp": "class Solution {\npublic:\n    int romanToInt(string s) {\n        // Your code here\n    }\n};",
       "java": "class Solution {\n    public int romanToInt(String s) {\n        // Your code here\n    }\n}",
-      "c": "int romanToInt(char* s) {\n    // Your code here\n}"
+      "c": "int romanToInt(char* s) {\n    // Your code here\n}",
+      "python": "class Solution:\n    def romanToInt(self, s):\n        # Your code here\n        pass"
     },
     "boilerplate": {
       "cpp": "#include <iostream>\n#include <string>\n#include <unordered_map>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    string s;\n    cin >> s;\n    Solution sol;\n    cout << sol.romanToInt(s) << endl;\n    return 0;\n}",
       "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        String s = sc.next();\n        Solution sol = new Solution();\n        System.out.println(sol.romanToInt(s));\n    }\n}",
-      "c": "#include <stdio.h>\n#include <string.h>\n\n{{USER_CODE}}\n\nint main() {\n    char s[20];\n    scanf(\"%s\", s);\n    printf(\"%d\\n\", romanToInt(s));\n    return 0;\n}"
+      "c": "#include <stdio.h>\n#include <string.h>\n\n{{USER_CODE}}\n\nint main() {\n    char s[20];\n    scanf(\"%s\", s);\n    printf(\"%d\\n\", romanToInt(s));\n    return 0;\n}",
+      "python": "{{USER_CODE}}\n\ndef main():\n    import sys\n    s = sys.stdin.readline().strip()\n    sol = Solution()\n    print(sol.romanToInt(s))\n\nif __name__ == '__main__':\n    main()"
     },
     "constraints": [
       "1 <= s.length <= 15",
