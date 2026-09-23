@@ -24,14 +24,26 @@ if (!fs.existsSync(dirCodes)) {
  */
 export const generateFile = (language, content) => {
     const jobID = uuid(); // generate unique filename
-    
+
+    if (language === 'java') {
+        // javac requires the source file name to match the public class name.
+        // Every problem's Java boilerplate declares `public class Main`, which
+        // is incompatible with a UUID-named .java file. Instead, isolate each
+        // submission in its own UUID-named directory containing Main.java —
+        // still UUID-scoped per submission, just at the directory level.
+        const jobDir = path.join(dirCodes, jobID);
+        fs.mkdirSync(jobDir, { recursive: true });
+        const filePath = path.join(jobDir, 'Main.java');
+        fs.writeFileSync(filePath, content);
+        return filePath;
+    }
+
     // Map language to proper file extension
     const extensionMap = {
         'cpp': 'cpp',
-        'java': 'java',
         'c': 'c'
     };
-    
+
     const extension = extensionMap[language] || language;
     const filename = `${jobID}.${extension}`;
     const filePath = path.join(dirCodes, filename);  //oj/codes/32145.cpp

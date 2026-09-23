@@ -14,6 +14,16 @@ if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath, { recursive: true });
 }
 
+// Removes the generated source file, compiled binary, and input file for a
+// job. Every submission leaves temp files on disk otherwise.
+function cleanup(...paths) {
+    for (const p of paths) {
+        if (p && fs.existsSync(p)) {
+            try { fs.unlinkSync(p); } catch (_) { /* best-effort cleanup */ }
+        }
+    }
+}
+
 export const executeC = (filepath, input = "") => {
     const jobId = path.basename(filepath).split(".")[0];
     const outPath = path.join(outputPath, `${jobId}.exe`);
@@ -21,23 +31,18 @@ export const executeC = (filepath, input = "") => {
 
     return new Promise((resolve, reject) => {
         try {
-            // Write input to temporary file
             if (input) {
                 fs.writeFileSync(inputPath, input);
             }
 
             const command = process.platform === "win32"
                 ? `gcc "${filepath}" -o "${outPath}" && cd "${outputPath}" && ${input ? `.\\${jobId}.exe < ${jobId}_input.txt` : `.\\${jobId}.exe`}`
-                : `gcc "${filepath}" -o "${outPath}" && cd "${outputPath}" && ${input ? `./${jobId} < ${jobId}_input.txt` : `./${jobId}`}`;
+                : `gcc "${filepath}" -o "${outPath}" && cd "${outputPath}" && ${input ? `./${jobId}.exe < ${jobId}_input.txt` : `./${jobId}.exe`}`;
 
             exec(command, { timeout: 10000 }, (error, stdout, stderr) => {
-                // Clean up input file
-                if (input && fs.existsSync(inputPath)) {
-                    fs.unlinkSync(inputPath);
-                }
+                cleanup(filepath, outPath, inputPath);
 
                 if (error) {
-                    // Check if it's a compilation error
                     if (error.message.includes('gcc')) {
                         return reject({ error: 'Compilation Error', stderr });
                     }
@@ -47,11 +52,8 @@ export const executeC = (filepath, input = "") => {
                 return resolve(stdout);
             });
         } catch (err) {
-            // Clean up input file on error
-            if (input && fs.existsSync(inputPath)) {
-                fs.unlinkSync(inputPath);
-            }
+            cleanup(filepath, outPath, inputPath);
             reject({ error: 'File operation error', stderr: err.message });
         }
     });
-}; 
+};

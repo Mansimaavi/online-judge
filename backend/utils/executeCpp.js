@@ -14,6 +14,17 @@ if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath, { recursive: true });
 }
 
+// Removes the generated source file, compiled binary, and input file for a
+// job. Every submission leaves temp files on disk otherwise, which is a
+// resource/privacy leak on a long-running server.
+function cleanup(...paths) {
+    for (const p of paths) {
+        if (p && fs.existsSync(p)) {
+            try { fs.unlinkSync(p); } catch (_) { /* best-effort cleanup */ }
+        }
+    }
+}
+
 export const executeCpp = (filepath, input = "") => {  /// the input is taken from the code folder // this has come from generate file--> /oj/code/132563.cpp
     const jobId = path.basename(filepath).split(".")[0];  // job id 132563
     const outPath = path.join(outputPath, `${jobId}.exe`);  // /oj/outputs/132563.exe
@@ -26,15 +37,12 @@ export const executeCpp = (filepath, input = "") => {  /// the input is taken fr
                 fs.writeFileSync(inputPath, input);
             }
 
-            const command = process.platform === "win32"  // g++ /oj/codes/133563.cpp -o /oj/outputs/132563.exe && cd outputs 132563.exe<132563_input.txt
+            const command = process.platform === "win32"
                 ? `g++ "${filepath}" -o "${outPath}" && cd "${outputPath}" && ${input ? `.\\${jobId}.exe < ${jobId}_input.txt` : `.\\${jobId}.exe`}`
-                : `g++ "${filepath}" -o "${outPath}" && cd "${outputPath}" && ${input ? `./${jobId} < ${jobId}_input.txt` : `./${jobId}`}`;
+                : `g++ "${filepath}" -o "${outPath}" && cd "${outputPath}" && ${input ? `./${jobId}.exe < ${jobId}_input.txt` : `./${jobId}.exe`}`;
 
             exec(command, { timeout: 10000 }, (error, stdout, stderr) => {  // using child process execute the terminal command within 10 secs 
-                // Clean up input file
-                if (input && fs.existsSync(inputPath)) {
-                    fs.unlinkSync(inputPath);
-                }
+                cleanup(filepath, outPath, inputPath);
 
                 if (error) {
                     // Check if it's a compilation error
@@ -47,10 +55,7 @@ export const executeCpp = (filepath, input = "") => {  /// the input is taken fr
                 return resolve(stdout);
             });
         } catch (err) {
-            // Clean up input file on error
-            if (input && fs.existsSync(inputPath)) {
-                fs.unlinkSync(inputPath);
-            }
+            cleanup(filepath, outPath, inputPath);
             reject({ error: 'File operation error', stderr: err.message });
         }
     });

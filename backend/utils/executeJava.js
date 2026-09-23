@@ -15,29 +15,34 @@ if (!fs.existsSync(outputPath)) {
 }
 
 export const executeJava = (filepath, input = "") => {
-    const jobId = path.basename(filepath).split(".")[0];
-    const classPath = path.join(outputPath, jobId);
-    const inputPath = path.join(outputPath, `${jobId}_input.txt`);
+    // filepath is .../codes/<jobId>/Main.java (see generateFile.js). The
+    // job id is the UUID-named parent directory, not the file's own base
+    // name (which is always "Main" since that's the required public class).
+    const jobId = path.basename(path.dirname(filepath));
+
+    // Compile+run in a job-specific output directory so concurrent
+    // submissions never collide on the same Main.class file.
+    const jobOutputDir = path.join(outputPath, jobId);
+    const inputPath = path.join(jobOutputDir, `input.txt`);
 
     return new Promise((resolve, reject) => {
         try {
-            // Write input to temporary file
+            fs.mkdirSync(jobOutputDir, { recursive: true });
+
             if (input) {
                 fs.writeFileSync(inputPath, input);
             }
 
-            const command = process.platform === "win32"
-                ? `javac "${filepath}" -d "${outputPath}" && cd "${outputPath}" && ${input ? `java ${jobId} < ${jobId}_input.txt` : `java ${jobId}`}`
-                : `javac "${filepath}" -d "${outputPath}" && cd "${outputPath}" && ${input ? `java ${jobId} < ${jobId}_input.txt` : `java ${jobId}`}`;
+            const runCmd = input ? `java -cp "${jobOutputDir}" Main < "${inputPath}"` : `java -cp "${jobOutputDir}" Main`;
+            const command = `javac "${filepath}" -d "${jobOutputDir}" && ${runCmd}`;
+
+            const sourceDir = path.dirname(filepath); // codes/<jobId>/
 
             exec(command, { timeout: 10000 }, (error, stdout, stderr) => {
-                // Clean up input file
-                if (input && fs.existsSync(inputPath)) {
-                    fs.unlinkSync(inputPath);
-                }
+                fs.rm(jobOutputDir, { recursive: true, force: true }, () => {});
+                fs.rm(sourceDir, { recursive: true, force: true }, () => {});
 
                 if (error) {
-                    // Check if it's a compilation error
                     if (error.message.includes('javac')) {
                         return reject({ error: 'Compilation Error', stderr });
                     }
@@ -47,11 +52,9 @@ export const executeJava = (filepath, input = "") => {
                 return resolve(stdout);
             });
         } catch (err) {
-            // Clean up input file on error
-            if (input && fs.existsSync(inputPath)) {
-                fs.unlinkSync(inputPath);
-            }
+            fs.rm(jobOutputDir, { recursive: true, force: true }, () => {});
+            fs.rm(path.dirname(filepath), { recursive: true, force: true }, () => {});
             reject({ error: 'File operation error', stderr: err.message });
         }
     });
-}; 
+};
