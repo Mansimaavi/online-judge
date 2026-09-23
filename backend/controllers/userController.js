@@ -10,14 +10,23 @@ export const register = async (req, res) => {
   }
 };
 
+// Shared cookie attributes. clearCookie must be called with the same
+// secure/sameSite/path attributes used when the cookie was set, or some
+// browsers will silently fail to remove it (a real bug in the previous
+// logout implementation, which called clearCookie with no options).
+const authCookieOptions = () => ({
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "strict",
+  path: "/",
+});
+
 export const login = async (req, res) => {
   try {
     const data = await loginUser(req.body);
     const cookieOptions = {
+      ...authCookieOptions(),
       expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
     };
     res.status(200).cookie("token", data.token, cookieOptions).json({ success: true, message: "Login successful", ...data });
   } catch (err) {
@@ -27,7 +36,7 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
-    res.clearCookie("token");
+    res.clearCookie("token", authCookieOptions());
     res.status(200).json({ success: true, message: "Logout successful" });
   } catch (err) {
     res.status(500).json({ success: false, message: "Logout failed" });
