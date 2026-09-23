@@ -48,7 +48,12 @@ export const executeJava = (filepath, input = "") => {
                     }
                     return reject({ error: 'Runtime Error', stderr });
                 }
-                if (stderr) return reject({ stderr });
+                // A non-zero exit (captured above as `error`) is the correct
+                // signal for compile/runtime failure. Non-fatal compiler warnings
+                // (e.g. gcc/g++ implicit-declaration or unused-variable warnings)
+                // are written to stderr even on a successful, zero-exit compile —
+                // treating any stderr output as a failure was wrongly rejecting
+                // otherwise-correct submissions.
                 return resolve(stdout);
             });
         } catch (err) {
