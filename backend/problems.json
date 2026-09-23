@@ -4,7 +4,7 @@
     "title": "Two Sum",
     "difficulty": "Easy",
     "category": "Array",
-    "description": "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
+    "description": "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target. Assume exactly one solution exists, and you may not use the same element twice.",
     "defaultCode": {
       "cpp": "class Solution {\npublic:\n    vector<int> twoSum(vector<int>& nums, int target) {\n        // Your code here\n    }\n};",
       "java": "class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        // Your code here\n    }\n}",
@@ -21,30 +21,62 @@
       "-10^9 <= target <= 10^9"
     ],
     "sampleInput": "nums = [2,7,11,15], target = 9",
-    "sampleOutput": ["[0,1]"],
-    "testCases": [
-      {"input": "5 9\n2 7 11 15 3", "output": "0 1"},
-      {"input": "3 3\n1 2 3", "output": "0 1"}
+    "sampleOutput": [
+      "[0,1]"
     ],
-    "tags": ["Array", "Hash Table", "Two Pointers"],
-    "companiesAskedIn": ["Google", "Amazon", "Microsoft", "Apple", "Facebook", "Uber", "Netflix", "Adobe"],
+    "testCases": [
+      {
+        "input": "5 9\n2 7 11 15 3",
+        "output": "0 1"
+      },
+      {
+        "input": "3 3\n1 2 3",
+        "output": "0 1"
+      },
+      {
+        "input": "4 6\n3 2 4 6",
+        "output": "1 2"
+      },
+      {
+        "input": "2 6\n3 3",
+        "output": "0 1"
+      },
+      {
+        "input": "6 10\n1 2 3 4 5 6",
+        "output": "3 5"
+      }
+    ],
+    "tags": [
+      "Array",
+      "Hash Table"
+    ],
+    "companiesAskedIn": [
+      "Google",
+      "Amazon",
+      "Microsoft",
+      "Apple",
+      "Facebook",
+      "Uber",
+      "Netflix",
+      "Adobe"
+    ],
     "author": "admin"
   },
   {
     "problemNumber": 2,
     "title": "Shortest path in undirected graph with unit weights",
-    "description": "Given a Undirected Graph of N vertices from 0 to N-1 and M edges and a 2D Integer array edges, where there is a edge from vertex edges[i][0] to vertex edges[i][1] of unit weight.\n\nFind the shortest path from the source to all other nodes in this graph. In this problem statement, we have assumed the source vertex to be '0'. If a vertex is unreachable from the source node, then return -1 for that vertex.",
+    "description": "Given an undirected graph of N vertices (0 to N-1) and M edges with unit weight, find the shortest path (number of edges) from source vertex 0 to every other vertex. If a vertex is unreachable, its distance is -1.",
     "difficulty": "Medium",
     "category": "Graph",
     "defaultCode": {
       "cpp": "class Solution {\npublic:\n    vector<int> shortestPath(vector<vector<int>>& edges, int N, int M) {\n        // Your code here\n    }\n};",
       "java": "class Solution {\n    public List<Integer> shortestPath(int[][] edges, int N, int M) {\n        // Your code here\n    }\n}",
-      "c": "void shortestPath(int edges[][2], int N, int M) {\n    // Your code here\n}"
+      "c": "int* shortestPath(int edges[][2], int N, int M, int* returnSize) {\n    // Your code here\n}"
     },
     "boilerplate": {
       "cpp": "#include <iostream>\n#include <vector>\n#include <queue>\n#include <algorithm>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    \n    int N, M;\n    cin >> N >> M;\n    \n    vector<vector<int>> edges(M, vector<int>(2));\n    for(int i = 0; i < M; i++) {\n        cin >> edges[i][0] >> edges[i][1];\n    }\n    \n    Solution sol;\n    vector<int> dist = sol.shortestPath(edges, N, M);\n    \n    for(int i = 0; i < dist.size(); i++) {\n        cout << dist[i];\n        if(i < dist.size() - 1) cout << \" \";\n    }\n    cout << endl;\n    \n    return 0;\n}",
       "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int N = sc.nextInt();\n        int M = sc.nextInt();\n        int[][] edges = new int[M][2];\n        for(int i = 0; i < M; i++) {\n            edges[i][0] = sc.nextInt();\n            edges[i][1] = sc.nextInt();\n        }\n        Solution sol = new Solution();\n        List<Integer> dist = sol.shortestPath(edges, N, M);\n        for(int d : dist) System.out.print(d + \" \");\n        System.out.println();\n    }\n}",
-              "c": "#include <stdio.h>\n#include <stdlib.h>\n\n{{USER_CODE}}\n\nint main() {\n    int N, M;\n    scanf(\"%d %d\", &N, &M);\n    \n    int (*edges)[2] = malloc(M * sizeof(*edges));\n    for(int i = 0; i < M; i++) {\n        scanf(\"%d %d\", &edges[i][0], &edges[i][1]);\n    }\n    \n    shortestPath(edges, N, M);\n    \n    free(edges);\n    return 0;\n}"
+      "c": "#include <stdio.h>\n#include <stdlib.h>\n\n{{USER_CODE}}\n\nint main() {\n    int N, M;\n    scanf(\"%d %d\", &N, &M);\n    \n    int (*edges)[2] = malloc(M * sizeof(*edges));\n    for(int i = 0; i < M; i++) {\n        scanf(\"%d %d\", &edges[i][0], &edges[i][1]);\n    }\n    \n    int returnSize;\n    int* dist = shortestPath(edges, N, M, &returnSize);\n    for (int i = 0; i < returnSize; i++) {\n        printf(\"%d\", dist[i]);\n        if (i < returnSize - 1) printf(\" \");\n    }\n    printf(\"\\n\");\n    \n    free(edges);\n    free(dist);\n    return 0;\n}"
     },
     "constraints": [
       "1 <= N <= 10^5",
@@ -53,14 +85,504 @@
       "Unit weight for all edges"
     ],
     "sampleInput": "9 10\n0 1\n0 3\n3 4\n4 5\n5 6\n1 2\n2 6\n6 7\n7 8\n6 8",
-    "sampleOutput": "0 1 2 1 2 3 3 4 4",
-    "testCases": [
-      {"input": "9 10\n0 1\n0 3\n3 4\n4 5\n5 6\n1 2\n2 6\n6 7\n7 8\n6 8", "output": "0 1 2 1 2 3 3 4 4"},
-      {"input": "4 3\n0 1\n1 2\n2 3", "output": "0 1 2 3"},
-      {"input": "5 0", "output": "0 -1 -1 -1 -1"}
+    "sampleOutput": [
+      "0 1 2 1 2 3 3 4 4"
     ],
-    "tags": ["Graph", "BFS", "Shortest Path", "Unit Weight", "Queue"],
-    "companiesAskedIn": ["Google", "Amazon", "Microsoft", "Meta", "LinkedIn", "Twitter", "Airbnb", "Dropbox"],
+    "testCases": [
+      {
+        "input": "9 10\n0 1\n0 3\n3 4\n4 5\n5 6\n1 2\n2 6\n6 7\n7 8\n6 8",
+        "output": "0 1 2 1 2 3 3 4 4"
+      },
+      {
+        "input": "4 3\n0 1\n1 2\n2 3",
+        "output": "0 1 2 3"
+      },
+      {
+        "input": "5 0",
+        "output": "0 -1 -1 -1 -1"
+      },
+      {
+        "input": "3 2\n0 1\n0 2",
+        "output": "0 1 1"
+      },
+      {
+        "input": "6 5\n0 1\n1 2\n2 3\n0 4\n4 5",
+        "output": "0 1 2 3 1 2"
+      }
+    ],
+    "tags": [
+      "Graph",
+      "BFS",
+      "Shortest Path",
+      "Unit Weight",
+      "Queue"
+    ],
+    "companiesAskedIn": [
+      "Google",
+      "Amazon",
+      "Microsoft",
+      "Meta",
+      "LinkedIn",
+      "Twitter",
+      "Airbnb",
+      "Dropbox"
+    ],
+    "author": "admin"
+  },
+  {
+    "problemNumber": 3,
+    "title": "Reverse Integer",
+    "description": "Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range [-2^31, 2^31 - 1], return 0.",
+    "difficulty": "Medium",
+    "category": "Math",
+    "defaultCode": {
+      "cpp": "class Solution {\npublic:\n    int reverse(int x) {\n        // Your code here\n    }\n};",
+      "java": "class Solution {\n    public int reverse(int x) {\n        // Your code here\n    }\n}",
+      "c": "int reverse(int x) {\n    // Your code here\n}"
+    },
+    "boilerplate": {
+      "cpp": "#include <iostream>\n#include <cstdint>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    int x;\n    cin >> x;\n    Solution sol;\n    cout << sol.reverse(x) << endl;\n    return 0;\n}",
+      "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int x = sc.nextInt();\n        Solution sol = new Solution();\n        System.out.println(sol.reverse(x));\n    }\n}",
+      "c": "#include <stdio.h>\n#include <limits.h>\n\n{{USER_CODE}}\n\nint main() {\n    int x;\n    scanf(\"%d\", &x);\n    printf(\"%d\\n\", reverse(x));\n    return 0;\n}"
+    },
+    "constraints": [
+      "-2^31 <= x <= 2^31 - 1"
+    ],
+    "sampleInput": "x = 123",
+    "sampleOutput": [
+      "321"
+    ],
+    "testCases": [
+      {
+        "input": "123",
+        "output": "321"
+      },
+      {
+        "input": "-123",
+        "output": "-321"
+      },
+      {
+        "input": "120",
+        "output": "21"
+      },
+      {
+        "input": "0",
+        "output": "0"
+      },
+      {
+        "input": "1534236469",
+        "output": "0"
+      }
+    ],
+    "tags": [
+      "Math"
+    ],
+    "companiesAskedIn": [
+      "Amazon",
+      "Apple",
+      "Bloomberg"
+    ],
+    "author": "admin"
+  },
+  {
+    "problemNumber": 4,
+    "title": "Valid Parentheses",
+    "description": "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid. Brackets must close in the correct order.",
+    "difficulty": "Easy",
+    "category": "Stack",
+    "defaultCode": {
+      "cpp": "class Solution {\npublic:\n    bool isValid(string s) {\n        // Your code here\n    }\n};",
+      "java": "class Solution {\n    public boolean isValid(String s) {\n        // Your code here\n    }\n}",
+      "c": "int isValid(char* s) {\n    // Your code here\n}"
+    },
+    "boilerplate": {
+      "cpp": "#include <iostream>\n#include <string>\n#include <stack>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    string s;\n    getline(cin, s);\n    Solution sol;\n    cout << (sol.isValid(s) ? \"true\" : \"false\") << endl;\n    return 0;\n}",
+      "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        String s = sc.nextLine();\n        Solution sol = new Solution();\n        System.out.println(sol.isValid(s));\n    }\n}",
+      "c": "#include <stdio.h>\n#include <string.h>\n\n{{USER_CODE}}\n\nint main() {\n    char s[10005];\n    if (fgets(s, sizeof(s), stdin)) {\n        s[strcspn(s, \"\\n\")] = 0;\n    }\n    printf(isValid(s) ? \"true\\n\" : \"false\\n\");\n    return 0;\n}"
+    },
+    "constraints": [
+      "1 <= s.length <= 10^4",
+      "s consists only of parentheses characters '()[]{}'"
+    ],
+    "sampleInput": "s = \"()[]{}\"",
+    "sampleOutput": [
+      "true"
+    ],
+    "testCases": [
+      {
+        "input": "()",
+        "output": "true"
+      },
+      {
+        "input": "()[]{}",
+        "output": "true"
+      },
+      {
+        "input": "(]",
+        "output": "false"
+      },
+      {
+        "input": "([)]",
+        "output": "false"
+      },
+      {
+        "input": "{[]}",
+        "output": "true"
+      }
+    ],
+    "tags": [
+      "Stack",
+      "String"
+    ],
+    "companiesAskedIn": [
+      "Google",
+      "Amazon",
+      "Microsoft",
+      "Facebook"
+    ],
+    "author": "admin"
+  },
+  {
+    "problemNumber": 5,
+    "title": "Maximum Subarray",
+    "description": "Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum, and return its sum.",
+    "difficulty": "Medium",
+    "category": "Array",
+    "defaultCode": {
+      "cpp": "class Solution {\npublic:\n    int maxSubArray(vector<int>& nums) {\n        // Your code here\n    }\n};",
+      "java": "class Solution {\n    public int maxSubArray(int[] nums) {\n        // Your code here\n    }\n}",
+      "c": "int maxSubArray(int* nums, int n) {\n    // Your code here\n}"
+    },
+    "boilerplate": {
+      "cpp": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    int n; cin >> n;\n    vector<int> nums(n);\n    for (int i = 0; i < n; i++) cin >> nums[i];\n    Solution sol;\n    cout << sol.maxSubArray(nums) << endl;\n    return 0;\n}",
+      "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] nums = new int[n];\n        for (int i = 0; i < n; i++) nums[i] = sc.nextInt();\n        Solution sol = new Solution();\n        System.out.println(sol.maxSubArray(nums));\n    }\n}",
+      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    int nums[100000];\n    for (int i = 0; i < n; i++) scanf(\"%d\", &nums[i]);\n    printf(\"%d\\n\", maxSubArray(nums, n));\n    return 0;\n}"
+    },
+    "constraints": [
+      "1 <= nums.length <= 10^5",
+      "-10^4 <= nums[i] <= 10^4"
+    ],
+    "sampleInput": "nums = [-2,1,-3,4,-1,2,1,-5,4]",
+    "sampleOutput": [
+      "6"
+    ],
+    "testCases": [
+      {
+        "input": "9\n-2 1 -3 4 -1 2 1 -5 4",
+        "output": "6"
+      },
+      {
+        "input": "1\n1",
+        "output": "1"
+      },
+      {
+        "input": "5\n5 4 -1 7 8",
+        "output": "23"
+      },
+      {
+        "input": "3\n-1 -2 -3",
+        "output": "-1"
+      },
+      {
+        "input": "4\n-2 -1 -3 -4",
+        "output": "-1"
+      }
+    ],
+    "tags": [
+      "Array",
+      "Dynamic Programming",
+      "Kadane's Algorithm"
+    ],
+    "companiesAskedIn": [
+      "Amazon",
+      "Microsoft",
+      "LinkedIn"
+    ],
+    "author": "admin"
+  },
+  {
+    "problemNumber": 6,
+    "title": "Binary Search",
+    "description": "Given a sorted (ascending) array of distinct integers nums and a target value, return the index of target if found, or -1 if not present. Must run in O(log n) time.",
+    "difficulty": "Easy",
+    "category": "Binary Search",
+    "defaultCode": {
+      "cpp": "class Solution {\npublic:\n    int search(vector<int>& nums, int target) {\n        // Your code here\n    }\n};",
+      "java": "class Solution {\n    public int search(int[] nums, int target) {\n        // Your code here\n    }\n}",
+      "c": "int search(int* nums, int n, int target) {\n    // Your code here\n}"
+    },
+    "boilerplate": {
+      "cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    int n; cin >> n;\n    vector<int> nums(n);\n    for (int i = 0; i < n; i++) cin >> nums[i];\n    int target; cin >> target;\n    Solution sol;\n    cout << sol.search(nums, target) << endl;\n    return 0;\n}",
+      "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] nums = new int[n];\n        for (int i = 0; i < n; i++) nums[i] = sc.nextInt();\n        int target = sc.nextInt();\n        Solution sol = new Solution();\n        System.out.println(sol.search(nums, target));\n    }\n}",
+      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    int nums[100000];\n    for (int i = 0; i < n; i++) scanf(\"%d\", &nums[i]);\n    int target; scanf(\"%d\", &target);\n    printf(\"%d\\n\", search(nums, n, target));\n    return 0;\n}"
+    },
+    "constraints": [
+      "1 <= nums.length <= 10^4",
+      "nums is sorted in ascending order with distinct values"
+    ],
+    "sampleInput": "nums = [-1,0,3,5,9,12], target = 9",
+    "sampleOutput": [
+      "4"
+    ],
+    "testCases": [
+      {
+        "input": "6\n-1 0 3 5 9 12\n9",
+        "output": "4"
+      },
+      {
+        "input": "6\n-1 0 3 5 9 12\n2",
+        "output": "-1"
+      },
+      {
+        "input": "1\n5\n5",
+        "output": "0"
+      },
+      {
+        "input": "5\n1 2 3 4 5\n1",
+        "output": "0"
+      },
+      {
+        "input": "5\n1 2 3 4 5\n5",
+        "output": "4"
+      }
+    ],
+    "tags": [
+      "Binary Search",
+      "Array"
+    ],
+    "companiesAskedIn": [
+      "Google",
+      "Amazon",
+      "Facebook"
+    ],
+    "author": "admin"
+  },
+  {
+    "problemNumber": 7,
+    "title": "Fibonacci Number",
+    "description": "The Fibonacci numbers form a sequence where F(0) = 0, F(1) = 1, and F(n) = F(n-1) + F(n-2) for n > 1. Given n, calculate F(n).",
+    "difficulty": "Easy",
+    "category": "Recursion",
+    "defaultCode": {
+      "cpp": "class Solution {\npublic:\n    int fib(int n) {\n        // Your code here\n    }\n};",
+      "java": "class Solution {\n    public int fib(int n) {\n        // Your code here\n    }\n}",
+      "c": "int fib(int n) {\n    // Your code here\n}"
+    },
+    "boilerplate": {
+      "cpp": "#include <iostream>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    int n; cin >> n;\n    Solution sol;\n    cout << sol.fib(n) << endl;\n    return 0;\n}",
+      "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        Solution sol = new Solution();\n        System.out.println(sol.fib(n));\n    }\n}",
+      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    printf(\"%d\\n\", fib(n));\n    return 0;\n}"
+    },
+    "constraints": [
+      "0 <= n <= 30"
+    ],
+    "sampleInput": "n = 10",
+    "sampleOutput": [
+      "55"
+    ],
+    "testCases": [
+      {
+        "input": "0",
+        "output": "0"
+      },
+      {
+        "input": "1",
+        "output": "1"
+      },
+      {
+        "input": "2",
+        "output": "1"
+      },
+      {
+        "input": "10",
+        "output": "55"
+      },
+      {
+        "input": "20",
+        "output": "6765"
+      }
+    ],
+    "tags": [
+      "Recursion",
+      "Dynamic Programming",
+      "Math"
+    ],
+    "companiesAskedIn": [
+      "Amazon",
+      "Adobe"
+    ],
+    "author": "admin"
+  },
+  {
+    "problemNumber": 8,
+    "title": "Move Zeroes",
+    "description": "Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements. Do this in-place.",
+    "difficulty": "Easy",
+    "category": "Array",
+    "defaultCode": {
+      "cpp": "class Solution {\npublic:\n    void moveZeroes(vector<int>& nums) {\n        // Your code here\n    }\n};",
+      "java": "class Solution {\n    public void moveZeroes(int[] nums) {\n        // Your code here\n    }\n}",
+      "c": "void moveZeroes(int* nums, int n) {\n    // Your code here\n}"
+    },
+    "boilerplate": {
+      "cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    int n; cin >> n;\n    vector<int> nums(n);\n    for (int i = 0; i < n; i++) cin >> nums[i];\n    Solution sol;\n    sol.moveZeroes(nums);\n    for (int i = 0; i < n; i++) { cout << nums[i]; if (i < n-1) cout << \" \"; }\n    cout << endl;\n    return 0;\n}",
+      "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt();\n        int[] nums = new int[n];\n        for (int i = 0; i < n; i++) nums[i] = sc.nextInt();\n        Solution sol = new Solution();\n        sol.moveZeroes(nums);\n        StringBuilder sb = new StringBuilder();\n        for (int i = 0; i < n; i++) { sb.append(nums[i]); if (i < n-1) sb.append(\" \"); }\n        System.out.println(sb.toString());\n    }\n}",
+      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n; scanf(\"%d\", &n);\n    int nums[100000];\n    for (int i = 0; i < n; i++) scanf(\"%d\", &nums[i]);\n    moveZeroes(nums, n);\n    for (int i = 0; i < n; i++) { printf(\"%d\", nums[i]); if (i < n-1) printf(\" \"); }\n    printf(\"\\n\");\n    return 0;\n}"
+    },
+    "constraints": [
+      "1 <= nums.length <= 10^4",
+      "-2^31 <= nums[i] <= 2^31 - 1"
+    ],
+    "sampleInput": "nums = [0,1,0,3,12]",
+    "sampleOutput": [
+      "[1,3,12,0,0]"
+    ],
+    "testCases": [
+      {
+        "input": "5\n0 1 0 3 12",
+        "output": "1 3 12 0 0"
+      },
+      {
+        "input": "1\n0",
+        "output": "0"
+      },
+      {
+        "input": "3\n1 2 3",
+        "output": "1 2 3"
+      },
+      {
+        "input": "4\n0 0 0 1",
+        "output": "1 0 0 0"
+      },
+      {
+        "input": "6\n4 0 5 0 0 2",
+        "output": "4 5 2 0 0 0"
+      }
+    ],
+    "tags": [
+      "Array",
+      "Two Pointers"
+    ],
+    "companiesAskedIn": [
+      "Facebook",
+      "Amazon"
+    ],
+    "author": "admin"
+  },
+  {
+    "problemNumber": 9,
+    "title": "Valid Palindrome",
+    "description": "Given a string s, return true if it is a palindrome after converting all uppercase letters to lowercase and removing all non-alphanumeric characters.",
+    "difficulty": "Easy",
+    "category": "String",
+    "defaultCode": {
+      "cpp": "class Solution {\npublic:\n    bool isPalindrome(string s) {\n        // Your code here\n    }\n};",
+      "java": "class Solution {\n    public boolean isPalindrome(String s) {\n        // Your code here\n    }\n}",
+      "c": "int isPalindrome(char* s) {\n    // Your code here\n}"
+    },
+    "boilerplate": {
+      "cpp": "#include <iostream>\n#include <string>\n#include <cctype>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    string s;\n    getline(cin, s);\n    Solution sol;\n    cout << (sol.isPalindrome(s) ? \"true\" : \"false\") << endl;\n    return 0;\n}",
+      "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        String s = sc.nextLine();\n        Solution sol = new Solution();\n        System.out.println(sol.isPalindrome(s));\n    }\n}",
+      "c": "#include <stdio.h>\n#include <string.h>\n#include <ctype.h>\n\n{{USER_CODE}}\n\nint main() {\n    char s[10005];\n    if (fgets(s, sizeof(s), stdin)) s[strcspn(s, \"\\n\")] = 0;\n    printf(isPalindrome(s) ? \"true\\n\" : \"false\\n\");\n    return 0;\n}"
+    },
+    "constraints": [
+      "1 <= s.length <= 2 * 10^5",
+      "s consists of printable ASCII characters"
+    ],
+    "sampleInput": "s = \"A man, a plan, a canal: Panama\"",
+    "sampleOutput": [
+      "true"
+    ],
+    "testCases": [
+      {
+        "input": "A man, a plan, a canal: Panama",
+        "output": "true"
+      },
+      {
+        "input": "race a car",
+        "output": "false"
+      },
+      {
+        "input": " ",
+        "output": "true"
+      },
+      {
+        "input": "0P",
+        "output": "false"
+      },
+      {
+        "input": "Was it a car or a cat I saw?",
+        "output": "true"
+      }
+    ],
+    "tags": [
+      "String",
+      "Two Pointers"
+    ],
+    "companiesAskedIn": [
+      "Microsoft",
+      "Facebook",
+      "Amazon"
+    ],
+    "author": "admin"
+  },
+  {
+    "problemNumber": 10,
+    "title": "Number of Connected Components",
+    "description": "Given n nodes labeled 0 to n-1 and a list of undirected edges, return the number of connected components in the graph.",
+    "difficulty": "Medium",
+    "category": "Union Find",
+    "defaultCode": {
+      "cpp": "class Solution {\npublic:\n    int countComponents(int n, vector<vector<int>>& edges) {\n        // Your code here\n    }\n};",
+      "java": "class Solution {\n    public int countComponents(int n, int[][] edges) {\n        // Your code here\n    }\n}",
+      "c": "int countComponents(int n, int edges[][2], int m) {\n    // Your code here\n}"
+    },
+    "boilerplate": {
+      "cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\n{{USER_CODE}}\n\nint main() {\n    int n, m; cin >> n >> m;\n    vector<vector<int>> edges(m, vector<int>(2));\n    for (int i = 0; i < m; i++) cin >> edges[i][0] >> edges[i][1];\n    Solution sol;\n    cout << sol.countComponents(n, edges) << endl;\n    return 0;\n}",
+      "java": "import java.util.*;\n\n{{USER_CODE}}\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int n = sc.nextInt(), m = sc.nextInt();\n        int[][] edges = new int[m][2];\n        for (int i = 0; i < m; i++) { edges[i][0] = sc.nextInt(); edges[i][1] = sc.nextInt(); }\n        Solution sol = new Solution();\n        System.out.println(sol.countComponents(n, edges));\n    }\n}",
+      "c": "#include <stdio.h>\n\n{{USER_CODE}}\n\nint main() {\n    int n, m; scanf(\"%d %d\", &n, &m);\n    int edges[10000][2];\n    for (int i = 0; i < m; i++) scanf(\"%d %d\", &edges[i][0], &edges[i][1]);\n    printf(\"%d\\n\", countComponents(n, edges, m));\n    return 0;\n}"
+    },
+    "constraints": [
+      "1 <= n <= 2000",
+      "0 <= edges.length <= n*(n-1)/2",
+      "0 <= edges[i][0], edges[i][1] < n"
+    ],
+    "sampleInput": "n = 5, edges = [[0,1],[1,2],[3,4]]",
+    "sampleOutput": [
+      "2"
+    ],
+    "testCases": [
+      {
+        "input": "5 3\n0 1\n1 2\n3 4",
+        "output": "2"
+      },
+      {
+        "input": "5 2\n0 1\n1 2",
+        "output": "3"
+      },
+      {
+        "input": "4 0",
+        "output": "4"
+      },
+      {
+        "input": "1 0",
+        "output": "1"
+      },
+      {
+        "input": "6 5\n0 1\n0 2\n2 3\n4 5\n3 4",
+        "output": "1"
+      }
+    ],
+    "tags": [
+      "Union Find",
+      "Graph",
+      "DFS"
+    ],
+    "companiesAskedIn": [
+      "Google",
+      "Facebook",
+      "Amazon"
+    ],
     "author": "admin"
   }
 ]
