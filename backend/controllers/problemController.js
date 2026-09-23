@@ -73,3 +73,46 @@ export const getProblemsByCategory = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// --- Admin-only write operations (protected by requireAdmin in the routes) ---
+
+export const createProblem = async (req, res) => {
+  try {
+    const problem = await problemService.createProblemService(req.body);
+    res.status(201).json({ success: true, problem });
+  } catch (error) {
+    if (error.name === 'ValidationError' || error.code === 11000) {
+      return res.status(400).json({ success: false, message: error.message });
+    }
+    res.status(500).json({ success: false, message: 'Failed to create problem' });
+  }
+};
+
+export const updateProblem = async (req, res) => {
+  try {
+    const problemNumber = parseInt(req.params.problemNumber);
+    const updated = await problemService.updateProblemByNumberService(problemNumber, req.body);
+    if (!updated) {
+      return res.status(404).json({ success: false, message: 'Problem not found' });
+    }
+    res.status(200).json({ success: true, problem: updated });
+  } catch (error) {
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ success: false, message: error.message });
+    }
+    res.status(500).json({ success: false, message: 'Failed to update problem' });
+  }
+};
+
+export const deleteProblem = async (req, res) => {
+  try {
+    const problemNumber = parseInt(req.params.problemNumber);
+    const deleted = await problemService.deleteProblemByNumberService(problemNumber);
+    if (!deleted) {
+      return res.status(404).json({ success: false, message: 'Problem not found' });
+    }
+    res.status(200).json({ success: true, message: 'Problem deleted', problemNumber });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Failed to delete problem' });
+  }
+};
