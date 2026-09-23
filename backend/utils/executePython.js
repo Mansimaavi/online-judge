@@ -1,66 +1,64 @@
-import { exec } from "child_process";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { runInSandbox } from "./dockerSandbox.js";
 
-// Get __dirname in ES module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-// Directory to store outputs
 const outputPath = path.join(__dirname, '..', "outputs");
 
 if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath, { recursive: true });
 }
 
-// Removes the generated source file and input file for a job.
-function cleanup(...paths) {
-    for (const p of paths) {
-        if (p && fs.existsSync(p)) {
-            try { fs.unlinkSync(p); } catch (_) { /* best-effort cleanup */ }
-        }
-    }
-}
+const IMAGE = process.env.OJ_PYTHON_IMAGE || 'oj-python-runtime:latest';
 
-export const executePython = (filepath, input = "") => {
-    // Python has no separate compile step — the interpreter parses and runs
-    // in one pass, so there's no analog to g++/gcc/javac's compile phase.
+export const executePython = async (filepath, input = "") => {
     const jobId = path.basename(filepath).split(".")[0];
-    const inputPath = path.join(outputPath, `${jobId}_input.txt`);
+    const jobDir = path.join(outputPath, jobId);
 
-    return new Promise((resolve, reject) => {
-        try {
-            if (input) {
-                fs.writeFileSync(inputPath, input);
-            }
+    // World-writable: the container runs as a non-root user (uid 1000) that
+    // does not own this host directory, so it needs write permission to
+    // produce any output at all. Verified this is required — without it,
+    // even the container's own bind-mounted volume is not writable by the
+    // sandboxed user, despite belonging to it inside the container.
+    fs.mkdirSync(jobDir, { recursive: true, mode: 0o777 });
+    fs.chmodSync(jobDir, 0o777);
 
-            const command = input
-                ? `python3 "${filepath}" < "${inputPath}"`
-                : `python3 "${filepath}"`;
+    try {
+        fs.copyFileSync(filepath, path.join(jobDir, 'main.py'));
+        if (input) fs.writeFileSync(path.join(jobDir, 'input.txt'), input);
 
-            exec(command, { timeout: 10000 }, (error, stdout, stderr) => {
-                cleanup(filepath, inputPath);
+        const cmd = input ? ['sh', '-c', 'python3 main.py < input.txt'] : ['python3', 'main.py'];
+        const run = await runInSandbox({
+            image: IMAGE,
+            cmd,
+            hostDir: jobDir,
+            timeoutMs: 8000,
+            memoryMb: 128,
+            cpus: 0.5,
+        });
 
-                if (error) {
-                    // A SyntaxError/IndentationError means the interpreter never
-                    // even started running the user's code — the closest Python
-                    // equivalent to a Compilation Error in the other languages.
-                    // Anything else that raised during actual execution (or was
-                    // killed on timeout) is a genuine Runtime Error.
-                    if (stderr && /SyntaxError|IndentationError|TabError/.test(stderr)) {
-                        return reject({ error: 'Compilation Error', stderr });
-                    }
-                    return reject({ error: 'Runtime Error', stderr });
-                }
-                // A non-zero exit (handled above as `error`) is the correct
-                // failure signal; stderr alone (e.g. a library printing a
-                // warning) does not mean the run failed.
-                return resolve(stdout);
-            });
-        } catch (err) {
-            cleanup(filepath, inputPath);
-            reject({ error: 'File operation error', stderr: err.message });
+        if (run.timedOut) {
+            throw { error: 'Time Limit Exceeded', stderr: run.stderr };
         }
-    });
+        if (run.exitCode !== 0) {
+            // No separate compile step in Python: a SyntaxError/IndentationError
+            // means the interpreter never ran any user code, which is the
+            // closest Python equivalent to a Compilation Error in the other
+            // languages; anything else that failed during actual execution
+            // (or was OOM-killed) is a genuine Runtime Error.
+            if (run.stderr && /SyntaxError|IndentationError|TabError/.test(run.stderr)) {
+                throw { error: 'Compilation Error', stderr: run.stderr };
+            }
+            throw { error: 'Runtime Error', stderr: run.stderr };
+        }
+
+        return run.stdout;
+    } finally {
+        if (fs.existsSync(filepath)) {
+            try { fs.unlinkSync(filepath); } catch (_) { /* best-effort cleanup */ }
+        }
+        try { fs.rmSync(jobDir, { recursive: true, force: true }); } catch (_) { /* best-effort cleanup */ }
+    }
 };

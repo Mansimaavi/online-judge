@@ -27,7 +27,7 @@ const submissionSchema = new mongoose.Schema({
   status: {
     type: String,
     required: true,
-    enum: ['Accepted', 'Wrong Answer', 'Compilation Error', 'Runtime Error', 'Time Limit Exceeded']
+    enum: ['Accepted', 'Wrong Answer', 'Compilation Error', 'Runtime Error', 'Time Limit Exceeded', 'System Error']
   },
   passedTests: {
     type: Number,

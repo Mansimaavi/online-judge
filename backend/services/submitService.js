@@ -1,6 +1,7 @@
 import Problem from '../models/problem.js';
 import { generateFile } from "../utils/generateFile.js";
 import { executeCode } from "../utils/executeCode.js";
+import { validateSubmissionInput } from "../utils/validateSubmissionInput.js";
 
 // Function to integrate user code with boilerplate
 function integrateUserCodeWithBoilerplate(userCode, boilerplate, language) {
@@ -32,6 +33,11 @@ async function runCodeOnInput(language, code, input, problem) {  // this is call
 }
 
 async function validateSubmission(problemNumber, code, language = 'cpp') {  // async what the user had written on frontend as code 
+  const inputCheck = validateSubmissionInput(language, code);
+  if (!inputCheck.valid) {
+    throw { error: 'System Error', message: inputCheck.message };
+  }
+
   const problem = await Problem.findOne({ problemNumber });
   if (!problem) {
     throw new Error('Problem not found');
@@ -39,66 +45,78 @@ async function validateSubmission(problemNumber, code, language = 'cpp') {  // a
 
   const testCases = problem.testCases; // get the total testcases for this problem from DB 
   const results = [];  // no results yet 
-  let passedTests = 0;  // no testcases passed yet 
   let totalExecutionTime = 0; // no exectime yet 
 
-  // Validate each test case individually
+  // Overall status defaults to Accepted and is only downgraded when a test
+  // case actually fails. Priority/first-failure order matches standard
+  // judge behavior: stop at the first failing test case rather than running
+  // all 5 regardless, both because a compile failure is deterministic
+  // (identical code will fail identically on every remaining test, so
+  // there's no reason to recompile it 4 more times) and because reporting
+  // "failed on test N" is the conventional judge UX.
+  let status = 'Accepted';
+  let message = 'All test cases passed successfully!';
+
   for (let i = 0; i < testCases.length; i++) {
     const testCase = testCases[i];
     const input = testCase.input;
     const expectedOutput = testCase.output;
-    
+
     try {
       const { output: actualOutput, executionTime } = await runCodeOnInput(language, code, input, problem); // await the runcodeonthistestcase if equal 
       totalExecutionTime += executionTime; 
-      
+
       // Compare outputs (normalize whitespace)
       const normalizedActual = actualOutput.replace(/\s+/g, ' ').trim();
       const normalizedExpected = expectedOutput.replace(/\s+/g, ' ').trim();
       const isCorrect = normalizedActual === normalizedExpected;
-      
-      const testResult = {
-        testCaseIndex: i + 1, // 0 based index 
-        input: input,
-        expectedOutput: expectedOutput,
-        actualOutput: actualOutput,
-        passed: isCorrect,
-        executionTime: executionTime
-      };
-      
-      results.push(testResult);
-      
-      if (isCorrect) {
-        passedTests++;
-      }
-      
-    } catch (error) {
-      // Handle compilation or runtime errors
-      const testResult = {
+
+      results.push({
         testCaseIndex: i + 1,
-        input: input,
-        expectedOutput: expectedOutput,
+        input,
+        expectedOutput,
+        actualOutput,
+        passed: isCorrect,
+        executionTime,
+      });
+
+      if (!isCorrect) {
+        status = 'Wrong Answer';
+        message = `Wrong Answer on test case ${i + 1}. ${i}/${testCases.length} test cases passed.`;
+        break;
+      }
+    } catch (error) {
+      // error.error is set by the execution layer to one of: Compilation
+      // Error, Runtime Error, Time Limit Exceeded, System Error.
+      const errorType = error.error || 'Runtime Error';
+
+      results.push({
+        testCaseIndex: i + 1,
+        input,
+        expectedOutput,
         actualOutput: null,
         passed: false,
-        error: error.error || error.message || 'Runtime error',
-        executionTime: 0
-      };
-      
-      results.push(testResult);
+        error: error.stderr || error.message || errorType,
+        executionTime: 0,
+      });
+
+      status = errorType;
+      message = errorType === 'Compilation Error'
+        ? `Compilation Error: ${error.stderr || 'code failed to compile'}`
+        : `${errorType} on test case ${i + 1}. ${i}/${testCases.length} test cases passed.`;
+      break;
     }
   }
 
-  const allPassed = passedTests === testCases.length;
-  
+  const passedTests = results.filter(r => r.passed).length;
+
   return {
-    status: allPassed ? 'Accepted' : 'Wrong Answer',
-    passedTests: passedTests,
+    status,
+    passedTests,
     totalTests: testCases.length,
     executionTime: totalExecutionTime,
     testResults: results,
-    message: allPassed 
-      ? 'All test cases passed successfully!' 
-      : `${passedTests}/${testCases.length} test cases passed. Check the failed test cases for details.`
+    message,
   };
 }
 

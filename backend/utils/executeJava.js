@@ -1,65 +1,70 @@
-import { exec } from "child_process";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { runInSandbox } from "./dockerSandbox.js";
 
-// Get __dirname in ES module
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-// Directory to store outputs
 const outputPath = path.join(__dirname, '..', "outputs");
 
 if (!fs.existsSync(outputPath)) {
     fs.mkdirSync(outputPath, { recursive: true });
 }
 
-export const executeJava = (filepath, input = "") => {
-    // filepath is .../codes/<jobId>/Main.java (see generateFile.js). The
-    // job id is the UUID-named parent directory, not the file's own base
-    // name (which is always "Main" since that's the required public class).
+const IMAGE = process.env.OJ_JAVA_IMAGE || 'oj-java-runtime:latest';
+
+export const executeJava = async (filepath, input = "") => {
+    // filepath is .../codes/<jobId>/Main.java (see generateFile.js: javac
+    // requires the source file name to match the public class name, so
+    // each Java submission lives in its own UUID-named directory).
     const jobId = path.basename(path.dirname(filepath));
+    const jobDir = path.join(outputPath, jobId);
 
-    // Compile+run in a job-specific output directory so concurrent
-    // submissions never collide on the same Main.class file.
-    const jobOutputDir = path.join(outputPath, jobId);
-    const inputPath = path.join(jobOutputDir, `input.txt`);
+    fs.mkdirSync(jobDir, { recursive: true, mode: 0o777 });
+    fs.chmodSync(jobDir, 0o777);
 
-    return new Promise((resolve, reject) => {
-        try {
-            fs.mkdirSync(jobOutputDir, { recursive: true });
+    try {
+        fs.copyFileSync(filepath, path.join(jobDir, 'Main.java'));
+        if (input) fs.writeFileSync(path.join(jobDir, 'input.txt'), input);
 
-            if (input) {
-                fs.writeFileSync(inputPath, input);
-            }
+        const compile = await runInSandbox({
+            image: IMAGE,
+            cmd: ['javac', 'Main.java'],
+            hostDir: jobDir,
+            timeoutMs: 15000, // JVM compiler startup is slower than gcc/g++
+            memoryMb: 384,
+            cpus: 1,
+        });
 
-            const runCmd = input ? `java -cp "${jobOutputDir}" Main < "${inputPath}"` : `java -cp "${jobOutputDir}" Main`;
-            const command = `javac "${filepath}" -d "${jobOutputDir}" && ${runCmd}`;
-
-            const sourceDir = path.dirname(filepath); // codes/<jobId>/
-
-            exec(command, { timeout: 10000 }, (error, stdout, stderr) => {
-                fs.rm(jobOutputDir, { recursive: true, force: true }, () => {});
-                fs.rm(sourceDir, { recursive: true, force: true }, () => {});
-
-                if (error) {
-                    if (error.message.includes('javac')) {
-                        return reject({ error: 'Compilation Error', stderr });
-                    }
-                    return reject({ error: 'Runtime Error', stderr });
-                }
-                // A non-zero exit (captured above as `error`) is the correct
-                // signal for compile/runtime failure. Non-fatal compiler warnings
-                // (e.g. gcc/g++ implicit-declaration or unused-variable warnings)
-                // are written to stderr even on a successful, zero-exit compile —
-                // treating any stderr output as a failure was wrongly rejecting
-                // otherwise-correct submissions.
-                return resolve(stdout);
-            });
-        } catch (err) {
-            fs.rm(jobOutputDir, { recursive: true, force: true }, () => {});
-            fs.rm(path.dirname(filepath), { recursive: true, force: true }, () => {});
-            reject({ error: 'File operation error', stderr: err.message });
+        if (compile.timedOut) {
+            throw { error: 'Compilation Error', stderr: 'Compilation timed out' };
         }
-    });
+        if (compile.exitCode !== 0) {
+            throw { error: 'Compilation Error', stderr: compile.stderr };
+        }
+
+        const cmd = input ? ['sh', '-c', 'java -cp . Main < input.txt'] : ['java', '-cp', '.', 'Main'];
+        const run = await runInSandbox({
+            image: IMAGE,
+            cmd,
+            hostDir: jobDir,
+            timeoutMs: 8000, // JVM startup overhead needs more headroom than a native binary
+            memoryMb: 256,
+            cpus: 0.5,
+        });
+
+        if (run.timedOut) {
+            throw { error: 'Time Limit Exceeded', stderr: run.stderr };
+        }
+        if (run.exitCode !== 0) {
+            throw { error: 'Runtime Error', stderr: run.stderr };
+        }
+
+        return run.stdout;
+    } finally {
+        // The source lives in its own directory (codes/<jobId>/) separate
+        // from jobDir (outputs/<jobId>/) — clean up both.
+        try { fs.rmSync(path.dirname(filepath), { recursive: true, force: true }); } catch (_) { /* best-effort cleanup */ }
+        try { fs.rmSync(jobDir, { recursive: true, force: true }); } catch (_) { /* best-effort cleanup */ }
+    }
 };
