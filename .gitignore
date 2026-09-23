@@ -1,2 +1,30 @@
+# Environment & secrets
 backend/.env
+frontend/onlinejudge/.env.local
 keys/oj(1).pem
+*.pem
+
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build output
+frontend/onlinejudge/dist/
+backend/dist/
+
+# Runtime-generated submission artifacts (temp source files, compiled
+# binaries, and per-submission input files created by the code execution
+# pipeline). These are scratch data, not source code, and are recreated
+# on every submission.
+backend/codes/*
+!backend/codes/.gitkeep
+backend/outputs/*
+!backend/outputs/.gitkeep
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
