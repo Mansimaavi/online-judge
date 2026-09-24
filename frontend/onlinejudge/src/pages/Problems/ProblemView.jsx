@@ -236,8 +236,7 @@ const ProblemView = ({ user }) => {
         passedTests,
         totalTests,
         message,
-        testResults,
-        output
+        testResults
       } = response;
       
       setSubmissionResult({

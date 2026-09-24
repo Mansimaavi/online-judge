@@ -15,7 +15,7 @@ const Leaderboard = () => {
         setLeaderboard(data || []);
         setLoading(false);
       })
-      .catch(err => {
+      .catch(() => {
         setError('Failed to load leaderboard');
         setLoading(false);
       });

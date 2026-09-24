@@ -34,7 +34,7 @@ const Submissions = ({ user }) => {
       } else {
         setError(data.message || 'Failed to load submissions');
       }
-    } catch (err) {
+    } catch {
       setError('Failed to load submissions');
     } finally {
       setLoading(false);

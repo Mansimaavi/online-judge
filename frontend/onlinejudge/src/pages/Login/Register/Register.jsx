@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { registerUser } from '../../../api';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
-const Register = ({ onRegister }) => {
+const Register = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');

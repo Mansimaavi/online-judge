@@ -150,7 +150,7 @@ export const fetchUserCount = async () => {
   try {
     const response = await axiosInstance.get('/api/auth/count');
     return response.data.count;
-  } catch (error) {
+  } catch {
     return 0;
   }
 };
@@ -173,7 +173,7 @@ export const getCurrentUser = async () => {
       return response.data.user;
     }
     return null;
-  } catch (error) {
+  } catch {
     return null;
   }
 };
@@ -182,7 +182,7 @@ export const fetchLeaderboard = async () => {
   try {
     const response = await axiosInstance.get('/api/submissions/leaderboard');
     return response.data.leaderboard;
-  } catch (error) {
+  } catch {
     return [];
   }
 };
