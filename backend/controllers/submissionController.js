@@ -2,6 +2,7 @@ import Submission from '../models/submission.js';
 import Problem from '../models/problem.js';
 import submitService from '../services/submitService.js';
 import User from '../models/user.js';
+import { getIO } from '../socket.js';
 
 export const createSubmission = async (req, res) => {
   try {
@@ -41,6 +42,18 @@ export const createSubmission = async (req, res) => {
       testResults: result.testResults,
       message: result.message
     });
+
+    // Every submission changes leaderboard-relevant stats (total
+    // submissions always; solved-count/accuracy if this one was
+    // Accepted), so notify connected clients to refetch. Never let this
+    // break the actual submission response if it fails for any reason.
+    try {
+      getIO().emit('leaderboard:update', {
+        username: req.user.username,
+        problemNumber,
+        status: result.status,
+      });
+    } catch (_) { /* socket emission is best-effort */ }
 
     // Return the same format as run/submit but with submission info
     const responseData = {

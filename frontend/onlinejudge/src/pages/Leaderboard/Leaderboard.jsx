@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { io } from 'socket.io-client';
 import { fetchLeaderboard } from '../../api';
+
+const SOCKET_URL = import.meta.env.VITE_BACKEND_URL || 'http://127.0.0.1:8080';
 
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    setLoading(true);
+  const loadLeaderboard = () => {
     fetchLeaderboard()
       .then(data => {
         setLeaderboard(data || []);
@@ -17,6 +19,23 @@ const Leaderboard = () => {
         setError('Failed to load leaderboard');
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    loadLeaderboard();
+
+    // Real-time updates: refetch (rather than trying to patch state
+    // locally) whenever any submission changes leaderboard-relevant
+    // stats, so the page updates without a manual refresh.
+    const socket = io(SOCKET_URL, { withCredentials: true });
+    socket.on('leaderboard:update', () => {
+      loadLeaderboard();
+    });
+
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   return (
