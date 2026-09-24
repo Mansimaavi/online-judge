@@ -24,7 +24,6 @@ app.use(express.urlencoded({ extended: true }));
 import problemRoutes from './routes/problemRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import compilerRoutes from './routes/compilerRoutes.js';
-import submitRoutes from './routes/submitRoutes.js';
 import submissionRoutes from './routes/submissionRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import mongoose from 'mongoose';
@@ -45,7 +44,6 @@ app.get('/api/health', (req, res) => {
 app.use('/api/auth', userRoutes);          // User auth (login, register, logout, me)
 app.use('/api/problems', problemRoutes);   // Problems CRUD
 app.use('/api/compiler', compilerRoutes);  // Code compile
-app.use('/api/submit', submitRoutes);      // Submit code
 app.use('/api/submissions', submissionRoutes); // User submissions
 app.use('/api/admin', adminRoutes);        // Admin: user management, statistics
 
