@@ -17,7 +17,15 @@ export const register = async (req, res) => {
 const authCookieOptions = () => ({
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
-  sameSite: "strict",
+  // SameSite=Strict silently drops the cookie on any cross-origin request,
+  // which breaks auth entirely once frontend and backend are deployed to
+  // separate origins (as with a frontend on one Render service and a
+  // backend on another). SameSite=None is required for that to work at
+  // all, and browsers require Secure whenever SameSite=None is used -
+  // both conditions are satisfied together in production, so this stays
+  // Strict for local dev (same-origin, no HTTPS) and relaxes only when
+  // actually deployed.
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
   path: "/",
 });
 
